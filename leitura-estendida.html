@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Leitura Estendida — Ateliê Geométrico (6º ano)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bp:#0e2841; --bp2:#153a5e; --bp3:#1d4b78;
+  --linha:#5ec8ff; --linha-esc:#2a8fd0;
+  --tinta:#eaf6ff; --tinta2:#a9c7e0;
+  --amarelo:#ffd23f; --amarelo-cl:#fff0b8;
+  --verde:#4bd08b; --verde-bg:#12433a;
+  --verm:#ff6b81; --verm-bg:#3d1f2b;
+  --papel:#12324f; --borda:#2a527d;
+  --raio:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--tinta);
+  background:
+    linear-gradient(rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(90deg,rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(180deg,#0c2338,#0e2841);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;}
+.fundo{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.fundo span{position:absolute;font-size:24px;opacity:.09;animation:flutua ease-in-out infinite;}
+@keyframes flutua{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-16px) rotate(14deg);}}
+
+.header{position:relative;z-index:1;background:linear-gradient(135deg,var(--bp2),var(--bp3));
+  text-align:center;padding:30px 18px 26px;border-bottom:4px solid var(--linha);color:#fff;}
+.header .selo{display:inline-block;background:var(--linha);border:2px solid #fff;color:#06263f;
+  font-size:11px;font-weight:800;letter-spacing:2px;padding:5px 14px;border-radius:20px;margin-bottom:12px;font-family:'Fredoka';}
+.header h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,5.5vw,40px);text-shadow:0 2px 0 #06263f;}
+.header p{color:var(--amarelo-cl);font-size:14.5px;margin-top:8px;}
+
+.barra-topo{position:sticky;top:0;z-index:30;background:rgba(12,35,56,.96);backdrop-filter:blur(6px);
+  padding:12px 16px;border-bottom:1px solid var(--borda);}
+.barra-info{max-width:820px;margin:0 auto 7px;display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--tinta2);}
+.barra-trilho{max-width:820px;margin:0 auto;height:16px;background:#0a1e30;border-radius:10px;overflow:hidden;border:1px solid var(--borda);}
+.barra-fill{height:100%;width:0;background:linear-gradient(90deg,var(--linha),var(--amarelo));transition:width .5s;border-radius:10px;}
+.jornada{max-width:820px;margin:16px auto 0;padding:0 16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;}
+.j-chip{display:flex;align-items:center;gap:6px;background:var(--papel);border:1px solid var(--borda);border-radius:30px;
+  padding:6px 12px;font-size:12px;font-weight:800;color:var(--tinta2);transition:.25s;cursor:pointer;}
+.j-chip.atual{border-color:var(--linha);color:var(--linha);box-shadow:0 0 0 3px rgba(94,200,255,.18);}
+.j-chip.feita{background:var(--verde-bg);border-color:var(--verde);color:var(--verde);}
+.j-chip .bola{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:#0a1e30;color:var(--tinta2);}
+.j-chip.feita .bola{background:var(--verde);color:#06263f;}
+
+.wrap{max-width:820px;margin:0 auto;padding:22px 16px 120px;position:relative;z-index:1;}
+.intro{background:var(--papel);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin-bottom:16px;font-size:14.5px;color:var(--tinta2);}
+.intro b{color:var(--linha);}
+.painel{background:var(--papel);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:18px;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:12px;}
+.painel .info{color:var(--tinta2);flex:1;min-width:190px;}.painel .info b{color:var(--tinta);}
+.painel .btns{display:flex;gap:6px;flex-wrap:wrap;}
+.mini{background:transparent;border:1px solid var(--borda);color:var(--tinta2);padding:5px 11px;border-radius:16px;cursor:pointer;
+  font-size:11px;font-weight:800;font-family:'Nunito';transition:.2s;}
+.mini:hover{border-color:var(--linha);color:var(--linha);}
+
+.secao{background:var(--papel);border:1px solid var(--borda);border-radius:var(--raio);margin-bottom:18px;overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);transition:.3s;}
+.secao.bloqueada{opacity:.55;}
+.sec-head{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;background:linear-gradient(135deg,var(--bp3),var(--linha-esc));}
+.sec-head .icone{font-size:26px;}
+.sec-head .tit{font-family:'Fredoka';font-weight:600;font-size:16.5px;flex:1;color:#fff;}
+.sec-head .estado{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:14px;background:#0a1e30;color:var(--tinta2);white-space:nowrap;}
+.sec-head .estado.ok{background:var(--verde);color:#06263f;}
+.sec-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;}
+.secao.aberta .sec-body{max-height:20000px;padding:18px;}
+
+.leitura p{margin-bottom:12px;font-size:15.5px;}
+.leitura h3{font-family:'Fredoka';color:var(--linha);font-size:16px;margin:16px 0 8px;}
+.destaque{background:rgba(94,200,255,.10);border-left:5px solid var(--linha);border-radius:8px;padding:12px 14px;margin:12px 0;font-size:15px;}
+.destaque b{color:var(--amarelo);}
+.exemplo{background:#0d283f;border:2px dashed var(--linha-esc);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:15px;}
+.exemplo .et{font-weight:800;color:var(--linha);font-size:12px;letter-spacing:1px;display:block;margin-bottom:6px;font-family:'Fredoka';}
+.postit{background:linear-gradient(135deg,#fff4c2,#ffe89a);color:#5a4a12;border-radius:6px;padding:12px 14px;margin:12px 0;
+  font-size:14.5px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);transform:rotate(-.5deg);}
+.postit::before{content:"📌 ";}
+.peg{background:var(--verm-bg);border:2px solid var(--verm);border-radius:8px;padding:12px 14px;margin:12px 0;font-size:14.5px;}
+.peg::before{content:"⚠️ Cuidado com a pegadinha: ";font-weight:800;color:var(--verm);}
+.fig{display:flex;justify-content:center;margin:14px 0;}
+.fig svg{background:#0a1e30;border:1px solid var(--borda);border-radius:10px;padding:6px;max-width:100%;}
+.legenda{text-align:center;font-size:12.5px;color:var(--tinta2);margin-top:-6px;margin-bottom:12px;}
+
+.exerc{margin-top:18px;border-top:2px dashed var(--borda);padding-top:16px;}
+.exerc h4{font-family:'Fredoka';font-weight:600;color:var(--linha);font-size:15.5px;margin-bottom:4px;}
+.exerc .sub{font-size:12.5px;color:var(--tinta2);margin-bottom:14px;}
+.q{background:#0d283f;border:1px solid var(--borda);border-radius:12px;padding:14px;margin-bottom:12px;}
+.q .qt{font-weight:700;font-size:15px;margin-bottom:10px;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--borda);border-radius:9px;margin-bottom:7px;
+  cursor:pointer;transition:.18s;font-size:14.5px;background:var(--bp2);}
+.opt:hover{border-color:var(--linha);background:#173d5e;}
+.opt.sel{border-color:var(--linha);background:#173d5e;font-weight:700;}
+.opt .l{min-width:24px;height:24px;border-radius:50%;background:#0a1e30;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0;color:var(--tinta2);}
+.opt.sel .l{background:var(--linha);color:#06263f;}
+.q.corrigida .opt{pointer-events:none;}
+.q.corrigida .opt.certa{border-color:var(--verde);background:var(--verde-bg);}
+.q.corrigida .opt.certa .l{background:var(--verde);color:#06263f;}
+.q.corrigida .opt.errada{border-color:var(--verm);background:var(--verm-bg);}
+.q.corrigida .opt.errada .l{background:var(--verm);color:#fff;}
+.q .exp{display:none;margin-top:9px;font-size:13.5px;background:#0a1e30;border:1px solid var(--borda);border-radius:8px;padding:10px 12px;line-height:1.5;}
+.q.corrigida .exp{display:block;}
+
+.barra-sec{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.btn{font-family:'Fredoka';font-weight:600;border:none;border-radius:12px;padding:11px 20px;cursor:pointer;font-size:14.5px;transition:.2s;}
+.btn-conf{background:var(--linha);color:#06263f;}
+.btn-conf:hover{background:var(--amarelo);}
+.btn-conf.off{opacity:.4;cursor:not-allowed;}
+.btn-ref{background:transparent;border:2px solid var(--linha);color:var(--linha);}
+.placar{font-weight:800;font-size:13.5px;}
+.placar.ok{color:var(--verde);}
+.placar.nao{color:var(--verm);}
+
+.final{display:none;text-align:center;background:linear-gradient(135deg,var(--verde),#2f9c6a);color:#06263f;
+  border-radius:18px;padding:34px 22px;margin-top:8px;box-shadow:0 10px 30px rgba(0,0,0,.35);}
+.final.on{display:block;animation:pop .5s;}
+@keyframes pop{0%{transform:scale(.9);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.final h2{font-family:'Fredoka';font-size:26px;margin-bottom:8px;}
+.final p{font-size:15px;}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(6,20,32,.8);z-index:90;align-items:center;justify-content:center;padding:20px;}
+.modal.on{display:flex;}
+.modal-card{background:var(--papel);border:2px solid var(--linha);border-radius:16px;padding:24px;max-width:340px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.modal-card p{font-size:15px;margin-bottom:16px;color:var(--tinta);}
+.modal-card .mbtns{display:flex;gap:10px;justify-content:center;}
+.modal-card button{font-family:'Fredoka';border:none;border-radius:10px;padding:10px 20px;font-size:14px;cursor:pointer;font-weight:600;}
+.mbtn-sim{background:var(--verm);color:#fff;}.mbtn-nao{background:var(--bp3);color:var(--tinta);}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(60px);background:var(--linha);color:#06263f;
+  padding:12px 20px;border-radius:30px;font-weight:800;font-size:14px;z-index:80;opacity:0;transition:.35s;box-shadow:0 6px 20px rgba(0,0,0,.35);}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1;}
+@media(max-width:600px){.sec-head .tit{font-size:14.5px;}}
+</style>
+</head>
+<body>
+<div class="fundo" id="fundo"></div>
+
+<div class="header">
+  <div class="selo">📐 MATEMÁTICA · 6º ANO · GEOMETRIA</div>
+  <h1>Ateliê Geométrico</h1>
+  <p>Leitura Estendida com Fixação — Capítulos 8, 11 e 14 (Polígonos · Circunferência · Sólidos)</p>
+</div>
+
+<div class="barra-topo">
+  <div class="barra-info"><span>Sua prancheta de estudos</span><span id="barTxt">0 de 11 pranchas</span></div>
+  <div class="barra-trilho"><div class="barra-fill" id="barFill"></div></div>
+  <div class="jornada" id="jornada"></div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    Olá, jovem arquiteto(a)! 📐 Aqui você vira mestre em <b>Geometria</b> para a Avaliação Mensal 1. São <b>11 pranchas de conteúdo</b>: leia com calma e, no fim de cada prancha, faça os exercícios. Você precisa acertar pelo menos <b>70%</b> para a próxima prancha ser liberada. Assim você domina antes de avançar!
+  </div>
+
+  <div class="painel">
+    <div class="info">💾 Progresso salvo sozinho neste navegador. Último salvamento: <b id="ultimo">—</b></div>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <label class="mini" style="display:inline-block">📤 Importar<input type="file" accept="application/json" onchange="importar(event)" style="display:none"></label>
+      <button class="mini" onclick="zerar()">🗑️ Zerar tudo</button>
+    </div>
+  </div>
+
+  <div id="secoes"></div>
+
+  <div class="final" id="final">
+    <h2>🏆 Você é arquiteto(a) mestre da Geometria!</h2>
+    <p>Você concluiu todas as 11 pranchas. Agora abra o <b>Resumo</b>, treine no <b>Simulado</b> e leve a <b>Folha de Regras</b> impressa. Boa prova! 📐</p>
+  </div>
+</div>
+
+<div class="modal" id="modal"><div class="modal-card"><p id="modalMsg"></p><div class="mbtns"><button class="mbtn-sim" id="modalSim">Sim</button><button class="mbtn-nao" id="modalNao">Cancelar</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// decor
+(function(){const c=document.getElementById('fundo');const e=['△','◯','⬡','◻','⬠','▷','◇','⬢'];for(let i=0;i<16;i++){const s=document.createElement('span');s.textContent=e[i%e.length];s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDuration=(3+Math.random()*4)+'s';s.style.animationDelay=(-Math.random()*5)+'s';c.appendChild(s);}})();
+
+// ---- SVG helpers (blueprint) ----
+const S=(w,h,inner)=>`<div class="fig"><svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg" stroke="#5ec8ff" stroke-width="2" fill="none">${inner}</svg></div>`;
+const cap=(t)=>`<div class="legenda">${t}</div>`;
+
+const SECOES=[
+{
+ icone:"📏", tit:"Prancha 1 — Formas planas e o que é um polígono",
+ conteudo:`
+ <div class="leitura">
+   <p>Olhe ao seu redor: a tela de uma TV, o tampo de uma mesa e o piso de uma quadra são <b>superfícies planas</b>. Já uma bola, um ovo ou uma laranja têm superfícies <b>não planas</b>. O truque para saber: se dá para "deitar" segmentos de reta sobre a superfície em qualquer direção, ela é <b>plana</b>.</p>
+   <p>As figuras planas têm apenas <b>duas dimensões</b> (por isso são chamadas de <b>bidimensionais</b>). Uma caixa ou um celular já têm uma terceira medida (a espessura) — são <b>tridimensionais</b> e viram assunto de sólidos geométricos, mais para frente.</p>
+   <div class="destaque">Um <b>polígono</b> é uma figura <b>plana</b> e <b>fechada</b>, delimitada por <b>segmentos de reta</b> que se encontram apenas nas <b>extremidades</b> (as pontinhas).</div>
+   ${S(300,90,`<polygon points="20,70 60,20 130,25 150,75 70,80"/><text x="150" y="45" fill="#a9c7e0" stroke="none" font-size="12">é polígono ✓</text><circle cx="235" cy="50" r="28"/><text x="205" y="90" fill="#ff6b81" stroke="none" font-size="12">não é polígono ✗</text>`)}
+   ${cap("Polígono = feito só de segmentos de reta fechados. A circunferência é curva, então NÃO é polígono.")}
+   <div class="postit">A palavra "polígono" vem do grego: <b>póly</b> (vários) + <b>gonía</b> (ângulos). Ou seja, "figura de vários ângulos".</div>
+   <div class="peg">figuras com lados curvos (como a circunferência) ou que ficam abertas NÃO são polígonos. Todo lado precisa ser um segmento de reta e a figura precisa estar fechada.</div>
+ </div>`,
+ ex:[
+  {q:`Uma superfície é considerada PLANA quando:`,
+   opts:["É colorida","Dá para traçar segmentos de reta sobre ela em qualquer direção","É muito grande","Tem três dimensões"],
+   correta:1,exp:`Se conseguimos deitar segmentos de reta em qualquer direção sobre a superfície, ela é plana (ex.: tampo de mesa).`},
+  {q:`Qual destas figuras é um polígono?`,
+   opts:["Uma circunferência","Um triângulo","Uma bola","A letra C"],
+   correta:1,exp:`O triângulo é plano, fechado e feito só de segmentos de reta. A circunferência é curva; a bola é 3D; a letra C é aberta.`},
+  {q:`A palavra "polígono" vem do grego e significa:`,
+   opts:["Muitos lados curvos","Vários ângulos","Figura redonda","Sem pontas"],
+   correta:1,exp:`"Póly" (vários) + "gonía" (ângulos): figura de vários ângulos.`},
+  {q:`Uma figura plana tem quantas dimensões?`,
+   opts:["Uma","Duas","Três","Nenhuma"],
+   correta:1,exp:`Figuras planas são bidimensionais: têm duas dimensões (por isso "cabem" numa folha).`},
+  {q:`Por que uma caixa NÃO é uma figura plana?`,
+   opts:["Porque é feita de papelão","Porque tem três dimensões (também tem espessura)","Porque é quadrada","Porque é grande"],
+   correta:1,exp:`A caixa tem uma terceira medida (espessura): é tridimensional, um sólido — não uma figura plana.`}
+ ]
+},
+{
+ icone:"🔺", tit:"Prancha 2 — Convexo, côncavo e os elementos do polígono",
+ conteudo:`
+ <div class="leitura">
+   <p>Todo polígono pode ser <b>convexo</b> ou <b>côncavo</b>. O teste é simples: pegue dois pontos quaisquer dentro do polígono e ligue-os com um segmento de reta.</p>
+   <div class="destaque">• <b>Convexo</b>: o segmento entre quaisquer dois pontos fica <b>sempre por dentro</b> do polígono.<br>• <b>Côncavo</b>: existe pelo menos um par de pontos cujo segmento <b>sai para fora</b> (o polígono tem uma "reentrância", como uma estrela ou seta).</div>
+   ${S(300,90,`<polygon points="30,20 90,20 100,70 20,70"/><text x="35" y="86" fill="#a9c7e0" stroke="none" font-size="11">convexo</text><polygon points="180,20 220,45 260,20 245,75 195,75"/><text x="185" y="90" fill="#ff6b81" stroke="none" font-size="11">côncavo (tem bico p/ dentro)</text>`)}
+   <h3>Os elementos de um polígono</h3>
+   <div class="destaque">• <b>Lado</b>: cada segmento de reta que forma o polígono.<br>• <b>Vértice</b>: o ponto onde dois lados se encontram.<br>• <b>Diagonal</b>: segmento que liga dois vértices <b>não consecutivos</b> (não vizinhos).<br>• <b>Ângulo interno</b> e <b>ângulo externo</b> (veremos na próxima prancha).</div>
+   <div class="postit">Num mesmo polígono, o <b>número de lados</b>, o de <b>vértices</b> e o de <b>ângulos internos</b> é sempre o <b>mesmo</b>. Contou 5 lados? Então são 5 vértices e 5 ângulos internos.</div>
+   <div class="peg">diagonal liga vértices que NÃO são vizinhos. O segmento entre dois vértices vizinhos é um LADO, não uma diagonal.</div>
+ </div>`,
+ ex:[
+  {q:`Um polígono é CONVEXO quando:`,
+   opts:["Tem uma reentrância para dentro","Qualquer segmento entre dois de seus pontos fica todo dentro dele","É muito grande","Tem lados curvos"],
+   correta:1,exp:`No convexo, ligando dois pontos quaisquer, o segmento nunca sai para fora da figura.`},
+  {q:`Uma figura em forma de estrela de 5 pontas é um polígono:`,
+   opts:["Convexo","Côncavo","Regular","Não é polígono"],
+   correta:1,exp:`A estrela tem "bicos" para dentro: há segmentos que saem da figura, então ela é côncava.`},
+  {q:`A diagonal de um polígono liga:`,
+   opts:["Dois lados vizinhos","Dois vértices não consecutivos (não vizinhos)","O centro a um vértice","Dois pontos quaisquer"],
+   correta:1,exp:`Diagonal une dois vértices que não são vizinhos. Vértices vizinhos já são ligados por um lado.`},
+  {q:`Um polígono tem 6 lados. Quantos vértices ele tem?`,
+   opts:["3","6","12","Depende do desenho"],
+   correta:1,exp:`Número de lados = número de vértices = número de ângulos internos. 6 lados → 6 vértices.`},
+  {q:`O ponto onde dois lados de um polígono se encontram chama-se:`,
+   opts:["Diagonal","Vértice","Aresta","Base"],
+   correta:1,exp:`Esse ponto de encontro de dois lados é o vértice.`}
+ ]
+},
+{
+ icone:"📐", tit:"Prancha 3 — Ângulos internos e externos",
+ conteudo:`
+ <div class="leitura">
+   <p>Cada "cantinho" de um polígono forma um ângulo. Existem dois tipos importantes:</p>
+   <div class="destaque">• <b>Ângulo interno</b>: formado por <b>dois lados consecutivos</b>, fica <b>dentro</b> do polígono.<br>• <b>Ângulo externo</b>: formado por um lado e pelo <b>prolongamento</b> do lado seguinte, fica <b>fora</b> do polígono.</div>
+   ${S(280,100,`<polygon points="40,80 200,80 160,25 80,25"/><path d="M200,80 L245,80" stroke-dasharray="5,4"/><text x="150" y="60" fill="#a9c7e0" stroke="none" font-size="11">interno</text><text x="205" y="72" fill="#ffd23f" stroke="none" font-size="11">externo</text>`)}
+   <div class="destaque">Em cada vértice, o <b>ângulo interno + o ângulo externo = 180°</b> (um ângulo raso, uma linha esticada).</div>
+   <div class="exemplo"><span class="et">EXEMPLO</span>Se o ângulo interno de um vértice mede <b>110°</b>, o ângulo externo desse mesmo vértice mede <b>180° − 110° = 70°</b>.</div>
+   <div class="postit">Interno + externo, no mesmo vértice, sempre fecham <b>180°</b>. Sabendo um, você acha o outro por subtração.</div>
+   <div class="peg">o ângulo externo NÃO é o que "sobra até 360°". Ele é o que falta para <b>180°</b> junto com o interno, no mesmo vértice.</div>
+ </div>`,
+ ex:[
+  {q:`O ângulo interno de um polígono é formado por:`,
+   opts:["Dois lados consecutivos, por dentro da figura","Uma diagonal e um lado","O prolongamento de um lado","O centro e um vértice"],
+   correta:0,exp:`O ângulo interno fica dentro do polígono, entre dois lados que se encontram no vértice.`},
+  {q:`Num vértice, o ângulo interno mede 130°. Quanto mede o ângulo externo?`,
+   opts:["130°","50°","230°","90°"],
+   correta:1,exp:`Interno + externo = 180°. Então 180° − 130° = 50°.`},
+  {q:`A soma do ângulo interno com o externo, num mesmo vértice, é sempre:`,
+   opts:["90°","180°","360°","Depende do polígono"],
+   correta:1,exp:`Eles formam juntos um ângulo raso: 180°.`},
+  {q:`O ângulo externo de um polígono é formado por um lado e:`,
+   opts:["Uma diagonal","O prolongamento do lado consecutivo","O raio","Outro ângulo interno"],
+   correta:1,exp:`O ângulo externo usa um lado e o prolongamento (continuação) do lado vizinho.`},
+  {q:`Se o ângulo externo de um vértice mede 60°, o ângulo interno mede:`,
+   opts:["60°","120°","300°","30°"],
+   correta:1,exp:`180° − 60° = 120°.`}
+ ]
+},
+{
+ icone:"🔷", tit:"Prancha 4 — Nomes dos polígonos e polígonos regulares",
+ conteudo:`
+ <div class="leitura">
+   <p>O nome de um polígono vem do seu <b>número de lados</b> (que é igual ao número de ângulos). Os prefixos são gregos:</p>
+   <div class="destaque">3 = <b>triângulo</b> · 4 = <b>quadrilátero</b> · 5 = <b>pentágono</b> · 6 = <b>hexágono</b> · 7 = <b>heptágono</b> · 8 = <b>octógono</b> · 9 = <b>eneágono</b> · 10 = <b>decágono</b> · 11 = <b>undecágono</b> · 12 = <b>dodecágono</b> · 15 = <b>pentadecágono</b>.</div>
+   <h3>Polígono regular</h3>
+   <div class="destaque">Um polígono é <b>regular</b> quando tem <b>todos os lados com a mesma medida</b> E <b>todos os ângulos internos iguais</b> (congruentes). Todo polígono regular é também <b>convexo</b>.</div>
+   ${S(300,90,`<polygon points="45,20 75,20 90,50 60,78 30,50"/><text x="30" y="90" fill="#a9c7e0" stroke="none" font-size="11">pentágono regular</text><polygon points="200,45 215,20 245,20 260,45 245,72 215,72"/><text x="200" y="88" fill="#a9c7e0" stroke="none" font-size="11">hexágono regular</text>`)}
+   <div class="postit">O favo de mel das abelhas é feito de <b>hexágonos regulares</b>: eles se encaixam sem deixar buracos e gastam menos cera. 🐝</div>
+   <div class="peg">um losango tem os 4 lados iguais, mas NÃO é regular, porque seus ângulos não são todos iguais. Regular exige as DUAS coisas: lados iguais E ângulos iguais.</div>
+ </div>`,
+ ex:[
+  {q:`Um polígono de 5 lados chama-se:`,
+   opts:["Quadrilátero","Pentágono","Hexágono","Heptágono"],
+   correta:1,exp:`5 lados = pentágono (prefixo "penta" = cinco).`},
+  {q:`Um polígono de 8 lados é um:`,
+   opts:["Octógono","Eneágono","Hexágono","Decágono"],
+   correta:0,exp:`8 lados = octógono (prefixo "octo" = oito).`},
+  {q:`Para um polígono ser REGULAR, ele precisa ter:`,
+   opts:["Só os lados iguais","Só os ângulos iguais","Todos os lados iguais E todos os ângulos iguais","Muitos lados"],
+   correta:2,exp:`Regular = todos os lados congruentes E todos os ângulos internos congruentes.`},
+  {q:`Todo polígono regular é também:`,
+   opts:["Côncavo","Convexo","Um triângulo","Uma circunferência"],
+   correta:1,exp:`Polígonos regulares são sempre convexos.`},
+  {q:`O favo de mel das abelhas tem forma de:`,
+   opts:["Pentágono regular","Hexágono regular","Quadrado","Triângulo"],
+   correta:1,exp:`São hexágonos regulares, que se encaixam sem deixar espaços e gastam menos cera.`}
+ ]
+},
+{
+ icone:"▱", tit:"Prancha 5 — Os quadriláteros especiais",
+ conteudo:`
+ <div class="leitura">
+   <p>Entre os polígonos de 4 lados (quadriláteros), alguns aparecem muito na prova. Vale conhecer cada um:</p>
+   <div class="destaque">
+     • <b>Trapézio</b>: tem <b>um</b> par de lados paralelos (chamados base maior e base menor).<br>
+     • <b>Paralelogramo</b>: tem <b>dois</b> pares de lados paralelos; os lados e os ângulos opostos são iguais.<br>
+     • <b>Losango</b>: é um paralelogramo com <b>os quatro lados iguais</b>.<br>
+     • <b>Retângulo</b>: é um paralelogramo com <b>os quatro ângulos de 90°</b>.<br>
+     • <b>Quadrado</b>: é um retângulo com <b>os quatro lados iguais</b> (o mais completo: lados iguais E ângulos de 90°).
+   </div>
+   ${S(320,80,`<polygon points="20,65 100,65 80,20 40,20"/><text x="30" y="78" fill="#a9c7e0" stroke="none" font-size="10">trapézio</text><polygon points="130,65 200,65 185,20 115,20"/><text x="130" y="78" fill="#a9c7e0" stroke="none" font-size="10">paralelogramo</text><rect x="240" y="22" width="60" height="43"/><text x="248" y="78" fill="#a9c7e0" stroke="none" font-size="10">retângulo</text>`)}
+   <div class="postit">Pense numa "escadinha de família": o quadrado é um retângulo especial, que por sua vez é um paralelogramo especial. Ou seja, todo quadrado é retângulo e é paralelogramo!</div>
+   <div class="peg">o trapézio tem só UM par de lados paralelos. Se tiver DOIS pares, já vira paralelogramo — não é mais só "trapézio".</div>
+ </div>`,
+ ex:[
+  {q:`O quadrilátero que tem apenas UM par de lados paralelos é o:`,
+   opts:["Quadrado","Trapézio","Losango","Retângulo"],
+   correta:1,exp:`O trapézio tem exatamente um par de lados paralelos (base maior e base menor).`},
+  {q:`Um losango é um paralelogramo que tem:`,
+   opts:["Todos os ângulos de 90°","Todos os quatro lados iguais","Só um par de lados paralelos","Lados curvos"],
+   correta:1,exp:`Losango = paralelogramo com os quatro lados congruentes.`},
+  {q:`Um retângulo é um paralelogramo cujos ângulos internos medem todos:`,
+   opts:["60°","90°","120°","180°"],
+   correta:1,exp:`O retângulo tem os quatro ângulos internos de 90°.`},
+  {q:`O quadrado pode ser descrito como:`,
+   opts:["Um retângulo com todos os lados iguais","Um trapézio","Um polígono de 5 lados","Uma figura sem ângulos"],
+   correta:0,exp:`O quadrado é um retângulo (ângulos de 90°) que também tem todos os lados iguais.`},
+  {q:`No paralelogramo, os lados e os ângulos opostos são:`,
+   opts:["Diferentes","Iguais (congruentes)","Sempre de 90°","Curvos"],
+   correta:1,exp:`No paralelogramo, lados opostos são iguais e ângulos opostos também são iguais.`}
+ ]
+},
+{
+ icone:"🔻", tit:"Prancha 6 — Os triângulos",
+ conteudo:`
+ <div class="leitura">
+   <p>O triângulo é o polígono de <b>três lados</b>. Ele pode ser classificado de duas maneiras: pelos <b>lados</b> e pelos <b>ângulos</b>.</p>
+   <h3>Pela medida dos lados</h3>
+   <div class="destaque">• <b>Equilátero</b>: os <b>três lados iguais</b>.<br>• <b>Isósceles</b>: <b>dois lados iguais</b>.<br>• <b>Escaleno</b>: os <b>três lados diferentes</b>.</div>
+   <h3>Pela medida dos ângulos</h3>
+   <div class="destaque">• <b>Acutângulo</b>: os três ângulos <b>menores que 90°</b>.<br>• <b>Retângulo</b>: tem <b>um ângulo de 90°</b> (reto).<br>• <b>Obtusângulo</b>: tem <b>um ângulo maior que 90°</b>.</div>
+   ${S(300,80,`<polygon points="40,70 90,70 65,22"/><text x="35" y="80" fill="#a9c7e0" stroke="none" font-size="10">equilátero</text><polygon points="150,70 210,70 150,25"/><rect x="150" y="58" width="12" height="12" stroke-width="1"/><text x="150" y="80" fill="#a9c7e0" stroke="none" font-size="10">retângulo</text>`)}
+   <div class="postit">As duas classificações combinam! Um triângulo pode ser, por exemplo, "isósceles e retângulo" ao mesmo tempo (dois lados iguais + um ângulo de 90°).</div>
+   <div class="peg">todo triângulo equilátero também é isósceles (ele tem "dois lados iguais"... e ainda um terceiro igual!). Mas nem todo isósceles é equilátero.</div>
+ </div>`,
+ ex:[
+  {q:`Um triângulo com os três lados de medidas diferentes é:`,
+   opts:["Equilátero","Isósceles","Escaleno","Retângulo"],
+   correta:2,exp:`Três lados diferentes = escaleno.`},
+  {q:`Um triângulo que tem um ângulo de 90° é chamado de:`,
+   opts:["Acutângulo","Retângulo","Obtusângulo","Equilátero"],
+   correta:1,exp:`Ter um ângulo reto (90°) o torna um triângulo retângulo.`},
+  {q:`Um triângulo com os três lados iguais é:`,
+   opts:["Escaleno","Isósceles apenas","Equilátero","Obtusângulo"],
+   correta:2,exp:`Três lados iguais = equilátero.`},
+  {q:`Qual afirmação é VERDADEIRA?`,
+   opts:["Todo triângulo isósceles é equilátero","Todo triângulo equilátero é isósceles","Todo triângulo é retângulo","Escaleno tem dois lados iguais"],
+   correta:1,exp:`O equilátero tem três lados iguais, então também satisfaz "ter dois iguais": todo equilátero é isósceles.`},
+  {q:`Um triângulo com os três ângulos menores que 90° é:`,
+   opts:["Retângulo","Obtusângulo","Acutângulo","Escaleno"],
+   correta:2,exp:`Três ângulos agudos (menores que 90°) = acutângulo.`}
+ ]
+},
+{
+ icone:"⭕", tit:"Prancha 7 — Circunferência e suas partes",
+ conteudo:`
+ <div class="leitura">
+   <p>Agora entramos no capítulo 11. A <b>circunferência</b> é uma <b>linha curva fechada</b> formada por <b>infinitos pontos que estão todos à mesma distância</b> de um ponto especial, o <b>centro</b>. Essa distância (do centro até a linha) é o <b>raio</b>.</p>
+   <div class="destaque">Partes da circunferência:<br>• <b>Centro</b>: o ponto do meio.<br>• <b>Raio</b>: distância do centro até qualquer ponto da linha.<br>• <b>Corda</b>: segmento com as duas pontas na circunferência.<br>• <b>Diâmetro</b>: uma corda especial que <b>passa pelo centro</b>. O diâmetro é o <b>dobro do raio</b>.<br>• <b>Comprimento</b>: o tamanho de uma volta completa.</div>
+   ${S(220,140,`<circle cx="110" cy="70" r="55"/><circle cx="110" cy="70" r="2" fill="#5ec8ff"/><line x1="110" y1="70" x2="165" y2="70"/><text x="125" y="64" fill="#ffd23f" stroke="none" font-size="11">raio</text><line x1="55" y1="70" x2="165" y2="70" stroke="#ff6b81"/><text x="60" y="88" fill="#ff6b81" stroke="none" font-size="11">diâmetro</text>`)}
+   ${cap("O diâmetro atravessa o centro e vale 2 raios.")}
+   <div class="postit">Um ponto pode estar em três lugares: <b>dentro</b> (interno), <b>fora</b> (externo) ou <b>sobre</b> a linha (pertencente à circunferência).</div>
+   <div class="peg">nem toda corda é diâmetro! A corda só é diâmetro quando passa exatamente pelo <b>centro</b>. Uma corda "de canto" não é diâmetro.</div>
+ </div>`,
+ ex:[
+  {q:`A distância do centro até qualquer ponto da circunferência chama-se:`,
+   opts:["Diâmetro","Corda","Raio","Arco"],
+   correta:2,exp:`Essa distância constante é o raio.`},
+  {q:`O diâmetro de uma circunferência é igual a:`,
+   opts:["Metade do raio","O dobro do raio","O triplo do raio","O mesmo que o raio"],
+   correta:1,exp:`O diâmetro passa pelo centro e mede o dobro do raio.`},
+  {q:`Uma corda é um segmento que:`,
+   opts:["Liga o centro a um ponto","Tem as duas pontas sobre a circunferência","É sempre o maior segmento","Fica fora da figura"],
+   correta:1,exp:`Corda: segmento cujas duas extremidades estão na circunferência.`},
+  {q:`Se o raio de uma circunferência mede 7 cm, o diâmetro mede:`,
+   opts:["3,5 cm","7 cm","14 cm","21 cm"],
+   correta:2,exp:`Diâmetro = 2 × raio = 2 × 7 = 14 cm.`},
+  {q:`Um ponto que está exatamente sobre a linha da circunferência é chamado de ponto:`,
+   opts:["Interno","Externo","Pertencente à circunferência","Central"],
+   correta:2,exp:`Se está sobre a linha, o ponto pertence à circunferência.`}
+ ]
+},
+{
+ icone:"🥧", tit:"Prancha 8 — Círculo, setor, coroa e ângulo central",
+ conteudo:`
+ <div class="leitura">
+   <p>Cuidado para não confundir: a <b>circunferência</b> é só a linha; o <b>círculo</b> é a linha <b>mais toda a região de dentro</b> (é a figura "cheia", como uma moeda).</p>
+   <div class="destaque">
+     • <b>Círculo</b>: a circunferência + todos os pontos do interior.<br>
+     • <b>Setor circular</b>: uma "fatia" do círculo (como um pedaço de pizza), limitada por dois raios e um arco.<br>
+     • <b>Coroa circular</b>: a região entre dois círculos de <b>mesmo centro</b> (concêntricos) e raios diferentes — como um CD.<br>
+     • <b>Semicircunferência</b>: metade da circunferência (o arco cujos extremos formam um diâmetro).
+   </div>
+   ${S(300,110,`<circle cx="60" cy="55" r="42"/><path d="M60,55 L60,13 A42,42 0 0,1 97,72 Z" fill="rgba(94,200,255,.25)"/><text x="20" y="108" fill="#a9c7e0" stroke="none" font-size="10">setor circular</text><circle cx="215" cy="55" r="42"/><circle cx="215" cy="55" r="22"/><text x="185" y="108" fill="#a9c7e0" stroke="none" font-size="10">coroa circular</text>`)}
+   <h3>Ângulo central e voltas</h3>
+   <div class="destaque">O <b>ângulo central</b> tem o vértice no <b>centro</b>. Uma volta completa na circunferência é <b>360°</b>; meia volta (uma semicircunferência) é <b>180°</b>.</div>
+   <div class="postit">Pedaço de pizza = <b>setor</b>. CD ou anel = <b>coroa</b>. Moeda cheia = <b>círculo</b>. A borda sozinha = <b>circunferência</b>.</div>
+   <div class="peg">"círculo" e "circunferência" NÃO são a mesma coisa. Circunferência = só a linha (curva). Círculo = a linha + o miolo cheio.</div>
+ </div>`,
+ ex:[
+  {q:`A diferença entre círculo e circunferência é que o círculo:`,
+   opts:["É maior","Inclui também toda a região de dentro","É sempre colorido","Não tem centro"],
+   correta:1,exp:`Círculo = circunferência (linha) + todos os pontos do interior.`},
+  {q:`Um pedaço de pizza (uma fatia) representa geometricamente um:`,
+   opts:["Círculo","Setor circular","Coroa circular","Diâmetro"],
+   correta:1,exp:`A fatia, limitada por dois raios e um arco, é um setor circular.`},
+  {q:`Um CD, que é redondo com um furo no meio de mesmo centro, lembra uma:`,
+   opts:["Semicircunferência","Coroa circular","Corda","Setor circular"],
+   correta:1,exp:`A região entre dois círculos concêntricos de raios diferentes é a coroa circular.`},
+  {q:`Uma volta completa em uma circunferência corresponde a:`,
+   opts:["90°","180°","270°","360°"],
+   correta:3,exp:`Uma volta completa = 360°.`},
+  {q:`O ângulo central de uma circunferência tem o vértice:`,
+   opts:["Sobre a linha","No centro","Fora da figura","Numa corda"],
+   correta:1,exp:`O ângulo central tem sempre o vértice no centro da circunferência.`}
+ ]
+},
+{
+ icone:"🧊", tit:"Prancha 9 — Sólidos, poliedros e a relação de Euler",
+ conteudo:`
+ <div class="leitura">
+   <p>Chegamos ao capítulo 14. Os <b>sólidos geométricos</b> têm <b>três dimensões</b> (altura, largura e comprimento). Eles se dividem em dois grandes grupos:</p>
+   <div class="destaque">• <b>Poliedros</b>: sólidos com <b>faces planas poligonais</b> (feitos só de polígonos).<br>• <b>Sólidos de revolução</b> (ou <b>corpos redondos</b>): têm alguma parte curva — cilindro, cone e esfera.</div>
+   <h3>Elementos de um poliedro</h3>
+   <div class="destaque">• <b>Face</b>: cada polígono que forma o poliedro.<br>• <b>Aresta</b>: o "encontro" (interseção) de duas faces.<br>• <b>Vértice</b>: o ponto onde as arestas se encontram.</div>
+   ${S(160,120,`<polygon points="40,35 110,35 110,95 40,95"/><polygon points="40,35 65,15 135,15 110,35"/><polygon points="110,35 135,15 135,75 110,95"/><text x="30" y="115" fill="#a9c7e0" stroke="none" font-size="11">cubo: 6 faces, 12 arestas, 8 vértices</text>`)}
+   <div class="destaque">🧮 <b>Relação de Euler</b> (vale para todo poliedro convexo): <b>V − A + F = 2</b>, onde V = vértices, A = arestas e F = faces. No cubo: 8 − 12 + 6 = 2. ✔</div>
+   <div class="postit">Para lembrar a fórmula de Euler: "<b>V</b>ai <b>A</b>té <b>F</b>echar 2" → V − A + F = 2.</div>
+   <div class="peg">na relação de Euler, o sinal do meio é de MENOS nas arestas: V <b>−</b> A + F = 2. Não é somar tudo!</div>
+ </div>`,
+ ex:[
+  {q:`Sólidos formados só por faces planas (polígonos) são chamados de:`,
+   opts:["Corpos redondos","Poliedros","Círculos","Prismas apenas"],
+   correta:1,exp:`Poliedros são os sólidos de faces planas poligonais.`},
+  {q:`A "aresta" de um poliedro é:`,
+   opts:["Cada polígono que o forma","O encontro (interseção) de duas faces","O ponto onde tudo se encontra","A parte curva"],
+   correta:1,exp:`Aresta = interseção de duas faces (como a "quina" da caixa).`},
+  {q:`A relação de Euler para poliedros convexos é:`,
+   opts:["V + A + F = 2","V − A + F = 2","V × A × F = 2","V + A − F = 0"],
+   correta:1,exp:`A relação é V − A + F = 2 (vértices − arestas + faces).`},
+  {q:`Um cubo tem 6 faces e 8 vértices. Pela relação de Euler, quantas arestas ele tem?`,
+   opts:["10","12","14","16"],
+   correta:1,exp:`V − A + F = 2 → 8 − A + 6 = 2 → A = 12 arestas.`},
+  {q:`Cilindro, cone e esfera são exemplos de:`,
+   opts:["Poliedros","Corpos redondos (sólidos de revolução)","Polígonos","Prismas"],
+   correta:1,exp:`Eles têm superfícies curvas: são corpos redondos (sólidos de revolução).`}
+ ]
+},
+{
+ icone:"⛰️", tit:"Prancha 10 — Sólidos de Platão, prismas e pirâmides",
+ conteudo:`
+ <div class="leitura">
+   <h3>Poliedros regulares (Sólidos de Platão)</h3>
+   <div class="destaque">Um poliedro é <b>regular</b> quando todas as faces são polígonos regulares e iguais. Só existem <b>cinco</b>, os <b>Sólidos de Platão</b>: <b>tetraedro</b> (4 faces), <b>hexaedro/cubo</b> (6), <b>octaedro</b> (8), <b>dodecaedro</b> (12) e <b>icosaedro</b> (20).</div>
+   <h3>Prismas</h3>
+   <div class="destaque">O <b>prisma</b> tem <b>duas bases poligonais paralelas e iguais</b>; as faces laterais são <b>paralelogramos</b> (retângulos, se for prisma reto). O nome vem da base: base triangular → prisma triangular. É <b>reto</b> quando as arestas laterais são perpendiculares às bases; senão, <b>oblíquo</b>.</div>
+   <h3>Pirâmides</h3>
+   <div class="destaque">A <b>pirâmide</b> tem <b>uma única base poligonal</b>; as outras faces são <b>triângulos</b> que se encontram num ponto no topo (o ápice). O nome também vem da base: base quadrada → pirâmide quadrangular.</div>
+   ${S(300,100,`<polygon points="30,90 90,90 90,40 30,40"/><polygon points="30,40 55,20 115,20 90,40"/><polygon points="90,40 115,20 115,70 90,90"/><text x="30" y="100" fill="#a9c7e0" stroke="none" font-size="10">prisma</text><polygon points="180,90 260,90 220,25"/><line x1="220" y1="25" x2="235" y2="80"/><text x="185" y="100" fill="#a9c7e0" stroke="none" font-size="10">pirâmide</text>`)}
+   <div class="postit">Prisma tem <b>duas</b> bases iguais (uma embaixo, uma em cima). Pirâmide tem <b>uma</b> base e uma pontinha no topo.</div>
+   <div class="peg">só existem <b>5</b> poliedros regulares (Sólidos de Platão). Nem todo prisma ou pirâmide é regular — regular exige faces todas iguais.</div>
+ </div>`,
+ ex:[
+  {q:`Quantos poliedros regulares (Sólidos de Platão) existem?`,
+   opts:["3","4","5","6"],
+   correta:2,exp:`São exatamente cinco: tetraedro, cubo, octaedro, dodecaedro e icosaedro.`},
+  {q:`Um prisma tem:`,
+   opts:["Uma base e um topo pontudo","Duas bases poligonais paralelas e iguais","Só faces curvas","Nenhuma base"],
+   correta:1,exp:`O prisma tem duas bases iguais e paralelas, ligadas por faces laterais.`},
+  {q:`Na pirâmide, as faces laterais têm formato de:`,
+   opts:["Retângulos","Triângulos que se encontram no topo","Círculos","Trapézios"],
+   correta:1,exp:`As faces laterais da pirâmide são triângulos que se juntam no ápice (topo).`},
+  {q:`Um prisma cujas bases são pentágonos chama-se prisma:`,
+   opts:["Triangular","Quadrangular","Pentagonal","Hexagonal"],
+   correta:2,exp:`O nome do prisma vem da base: base pentagonal → prisma pentagonal.`},
+  {q:`Num prisma RETO, as faces laterais são:`,
+   opts:["Triângulos","Retângulos","Círculos","Pentágonos"],
+   correta:1,exp:`No prisma reto, as arestas são perpendiculares às bases e as faces laterais são retângulos.`}
+ ]
+},
+{
+ icone:"🥫", tit:"Prancha 11 — Sólidos de revolução e planificação",
+ conteudo:`
+ <div class="leitura">
+   <p>Os <b>sólidos de revolução</b> (corpos redondos) nascem quando giramos uma figura plana em torno de um eixo (uma reta). Os três principais:</p>
+   <div class="destaque">
+     • <b>Cilindro</b>: gira um <b>retângulo</b> em torno de um eixo (ex.: uma lata).<br>
+     • <b>Cone</b>: gira um <b>triângulo</b> em torno de um eixo (ex.: casquinha de sorvete). Sua planificação é um <b>círculo + um setor circular</b>.<br>
+     • <b>Esfera</b>: gira uma <b>semicircunferência</b> em torno do seu diâmetro (ex.: uma bola).
+   </div>
+   ${S(300,100,`<ellipse cx="55" cy="25" rx="30" ry="10"/><line x1="25" y1="25" x2="25" y2="80"/><line x1="85" y1="25" x2="85" y2="80"/><ellipse cx="55" cy="80" rx="30" ry="10"/><text x="35" y="99" fill="#a9c7e0" stroke="none" font-size="10">cilindro</text><path d="M150,80 A35,10 0 0,0 220,80"/><line x1="150" y1="80" x2="185" y2="20"/><line x1="220" y1="80" x2="185" y2="20"/><text x="165" y="99" fill="#a9c7e0" stroke="none" font-size="10">cone</text>`)}
+   <h3>Planificação</h3>
+   <div class="destaque"><b>Planificar</b> é "abrir" o sólido e desenhar todas as suas faces no plano (numa folha), de modo que, recortando e dobrando, ele possa ser montado de novo. O <b>cubo</b> tem <b>11</b> planificações diferentes que funcionam.</div>
+   <div class="postit">Semelhanças úteis: o cilindro e o prisma têm <b>bases paralelas</b>. O cone e a pirâmide têm um <b>vértice/ponta fora da base</b>.</div>
+   <div class="peg">a esfera vem do giro de uma <b>semicircunferência</b> (não de um círculo inteiro). O cilindro vem de um retângulo e o cone, de um triângulo.</div>
+ </div>`,
+ ex:[
+  {q:`Um sólido de revolução é obtido:`,
+   opts:["Colando polígonos","Girando uma figura plana em torno de um eixo","Cortando um poliedro","Somando arestas"],
+   correta:1,exp:`Corpos redondos surgem da rotação de uma figura plana ao redor de um eixo.`},
+  {q:`O cilindro é gerado pela rotação de um:`,
+   opts:["Triângulo","Retângulo","Círculo","Pentágono"],
+   correta:1,exp:`Girando um retângulo em torno de um eixo, obtemos o cilindro.`},
+  {q:`O cone é gerado pela rotação de um:`,
+   opts:["Triângulo","Quadrado","Retângulo","Hexágono"],
+   correta:0,exp:`Girando um triângulo em torno de um eixo, obtemos o cone.`},
+  {q:`A esfera é gerada pela rotação de uma:`,
+   opts:["Corda","Semicircunferência (em torno do diâmetro)","Reta","Coroa circular"],
+   correta:1,exp:`A esfera vem do giro de uma semicircunferência em torno do seu diâmetro.`},
+  {q:`Planificar um sólido significa:`,
+   opts:["Deixá-lo mais pesado","Abrir suas faces no plano para poder montá-lo depois","Pintá-lo","Cortá-lo ao meio"],
+   correta:1,exp:`A planificação representa todas as faces do sólido num plano, de modo que dá para recortar e montar.`}
+ ]
+}
+];
+
+const TOTAL=SECOES.length;
+const CHAVE='kit_mat6_geo_cap8_11_14_leitura_v1';
+let estado={resp:SECOES.map(s=>s.ex.map(()=>-1)),feita:SECOES.map(()=>false),aberta:0,data:null};
+
+// deterministic shuffle (fixed seed) — distributes correct answer across letters
+function shuffleQ(si,ei,opts,correta){
+  const seed=(si*97+ei*13+7);let a=opts.map((t,i)=>({t,ok:i===correta}));
+  let r=seed;const rnd=()=>{r=(r*1103515245+12345)&0x7fffffff;return r/0x7fffffff;};
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+// pre-shuffle all questions, storing new correct index by content
+SECOES.forEach((s,si)=>s.ex.forEach((e,ei)=>{
+  const sh=shuffleQ(si,ei,e.opts,e.correta);
+  e.opts=sh.map(o=>o.t);
+  e.correta=sh.findIndex(o=>o.ok);
+}));
+
+function render(){
+ const cont=document.getElementById('secoes');cont.innerHTML='';
+ SECOES.forEach((s,si)=>{
+   const desbloq = si===0 || estado.feita[si-1];
+   const div=document.createElement('div');
+   div.className='secao'+(desbloq?'':' bloqueada')+(estado.aberta===si&&desbloq?' aberta':'');
+   div.id='sec'+si;
+   let opcoes=s.ex.map((e,ei)=>{
+     let opts=e.opts.map((o,oi)=>`<div class="opt" id="o_${si}_${ei}_${oi}" onclick="sel(${si},${ei},${oi})"><span class="l">${'ABCD'[oi]}</span><span>${o}</span></div>`).join('');
+     return `<div class="q" id="q_${si}_${ei}"><div class="qt">${ei+1}. ${e.q}</div>${opts}<div class="exp"><b>💡 </b>${e.exp}</div></div>`;
+   }).join('');
+   div.innerHTML=`
+     <div class="sec-head" onclick="toggle(${si})">
+       <span class="icone">${desbloq?s.icone:'🔒'}</span>
+       <span class="tit">${s.tit}</span>
+       <span class="estado ${estado.feita[si]?'ok':''}">${estado.feita[si]?'✅ pronta':(desbloq?'aberta':'🔒 travada')}</span>
+     </div>
+     <div class="sec-body">
+       ${s.conteudo}
+       <div class="exerc">
+         <h4>📐 Exercícios de fixação</h4>
+         <div class="sub">Responda todos e clique em "Conferir prancha". Você precisa de pelo menos 70% (acertar ${Math.ceil(s.ex.length*0.7)} de ${s.ex.length}) para liberar a próxima.</div>
+         ${opcoes}
+         <div class="barra-sec">
+           <button class="btn btn-conf" id="conf_${si}" onclick="conferir(${si})">Conferir prancha ✓</button>
+           <button class="btn btn-ref" id="ref_${si}" style="display:none" onclick="refazer(${si})">↻ Refazer</button>
+           <span class="placar" id="plac_${si}"></span>
+         </div>
+       </div>
+     </div>`;
+   cont.appendChild(div);
+ });
+ SECOES.forEach((s,si)=>{
+   s.ex.forEach((e,ei)=>{
+     const r=estado.resp[si][ei];
+     if(r>=0){const el=document.getElementById(`o_${si}_${ei}_${r}`);if(el)el.classList.add('sel');}
+   });
+   if(estado.feita[si]) mostrarCorrecao(si);
+ });
+ atualizarBarra();renderJornada();atualizarConfBtns();
+}
+function toggle(si){
+ const desbloq = si===0 || estado.feita[si-1];
+ if(!desbloq){toast('🔒 Termine a prancha anterior primeiro!');return;}
+ estado.aberta = (estado.aberta===si? -1 : si);
+ document.querySelectorAll('.secao').forEach((d,i)=>d.classList.toggle('aberta', i===estado.aberta && (i===0||estado.feita[i-1])));
+ salvar();
+}
+function sel(si,ei,oi){
+ if(estado.feita[si]) return;
+ for(let o=0;o<SECOES[si].ex[ei].opts.length;o++){const el=document.getElementById(`o_${si}_${ei}_${o}`);if(el)el.classList.remove('sel');}
+ document.getElementById(`o_${si}_${ei}_${oi}`).classList.add('sel');
+ estado.resp[si][ei]=oi;
+ atualizarConfBtns();salvar();
+}
+function atualizarConfBtns(){
+ SECOES.forEach((s,si)=>{
+   const btn=document.getElementById('conf_'+si);if(!btn)return;
+   if(estado.feita[si]){btn.style.display='none';return;}
+   const todas = estado.resp[si].every(r=>r>=0);
+   btn.classList.toggle('off',!todas);
+ });
+}
+function conferir(si){
+ const s=SECOES[si];
+ if(!estado.resp[si].every(r=>r>=0)){toast('Responda todas as questões!');return;}
+ let acertos=0;s.ex.forEach((e,ei)=>{if(estado.resp[si][ei]===e.correta)acertos++;});
+ const minimo=Math.ceil(s.ex.length*0.7);
+ const passou=acertos>=minimo;
+ mostrarCorrecao(si);
+ const plac=document.getElementById('plac_'+si);
+ plac.textContent=`Você acertou ${acertos} de ${s.ex.length}.`;
+ if(passou){
+   estado.feita[si]=true;
+   plac.className='placar ok';plac.textContent+=' ✅ Prancha concluída!';
+   document.getElementById('conf_'+si).style.display='none';
+   document.getElementById('sec'+si).querySelector('.estado').className='estado ok';
+   document.getElementById('sec'+si).querySelector('.estado').textContent='✅ pronta';
+   if(si+1<TOTAL){
+     setTimeout(()=>{estado.aberta=si+1;render();document.getElementById('sec'+(si+1)).scrollIntoView({behavior:'smooth',block:'start'});toast('📐 Próxima prancha liberada!');},700);
+   } else { toast('🏆 Todas as pranchas concluídas!'); }
+ } else {
+   plac.className='placar nao';plac.textContent+=` Você precisa de ${minimo}. Tente de novo! ↻`;
+   document.getElementById('ref_'+si).style.display='inline-block';
+ }
+ atualizarBarra();renderJornada();salvar();
+}
+function mostrarCorrecao(si){
+ const s=SECOES[si];
+ s.ex.forEach((e,ei)=>{
+   const q=document.getElementById(`q_${si}_${ei}`);if(!q)return;
+   q.classList.add('corrigida');
+   const r=estado.resp[si][ei];
+   for(let o=0;o<e.opts.length;o++){
+     const el=document.getElementById(`o_${si}_${ei}_${o}`);if(!el)continue;
+     if(o===e.correta)el.classList.add('certa');
+     if(o===r&&r!==e.correta)el.classList.add('errada');
+   }
+ });
+}
+function refazer(si){
+ estado.resp[si]=SECOES[si].ex.map(()=>-1);
+ estado.feita[si]=false;
+ render();
+ estado.aberta=si;
+ document.getElementById('sec'+si).classList.add('aberta');
+ document.getElementById('sec'+si).scrollIntoView({behavior:'smooth',block:'start'});
+ salvar();
+}
+function atualizarBarra(){
+ const feitas=estado.feita.filter(Boolean).length;
+ const pct=Math.round(feitas/TOTAL*100);
+ document.getElementById('barFill').style.width=pct+'%';
+ document.getElementById('barTxt').textContent=`${feitas} de ${TOTAL} pranchas`;
+ document.getElementById('final').classList.toggle('on',feitas===TOTAL);
+}
+function renderJornada(){
+ const j=document.getElementById('jornada');j.innerHTML='';
+ SECOES.forEach((s,si)=>{
+   const desbloq=si===0||estado.feita[si-1];
+   const cls=estado.feita[si]?'feita':(estado.aberta===si&&desbloq?'atual':'');
+   const bola=estado.feita[si]?'✓':(desbloq?(si+1):'🔒');
+   const chip=document.createElement('div');
+   chip.className='j-chip '+cls;
+   chip.onclick=()=>{toggle(si);if(si===estado.aberta)document.getElementById('sec'+si).scrollIntoView({behavior:'smooth',block:'start'});};
+   chip.innerHTML=`<span class="bola">${bola}</span> ${s.icone}`;
+   j.appendChild(chip);
+ });
+}
+function salvar(){try{estado.data=new Date().toISOString();localStorage.setItem(CHAVE,JSON.stringify(estado));rotulo(estado.data);}catch(e){}}
+function carregar(){try{const d=localStorage.getItem(CHAVE);if(!d)return;const e=JSON.parse(d);
+  if(e.resp)estado.resp=e.resp;if(e.feita)estado.feita=e.feita;if(typeof e.aberta==='number')estado.aberta=e.aberta;estado.data=e.data;rotulo(e.data);}catch(e){}}
+function rotulo(iso){const el=document.getElementById('ultimo');if(!iso){el.textContent='—';return;}const d=new Date(iso);el.textContent=d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
+// modal de confirmação (sem alert/confirm nativos)
+let _mcb=null;
+function modalConfirm(msg,cb){document.getElementById('modalMsg').innerHTML=msg;_mcb=cb;document.getElementById('modal').classList.add('on');}
+document.getElementById('modalSim').onclick=()=>{document.getElementById('modal').classList.remove('on');if(_mcb)_mcb();_mcb=null;};
+document.getElementById('modalNao').onclick=()=>{document.getElementById('modal').classList.remove('on');_mcb=null;};
+function exportar(){const d=localStorage.getItem(CHAVE);if(!d){toast('Ainda não há progresso para exportar.');return;}const b=new Blob([d],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='progresso_leitura_geo6.json';a.click();URL.revokeObjectURL(u);toast('📥 Exportado!');}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);modalConfirm('Isso vai substituir o progresso atual. Continuar?',()=>{localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);});}catch(x){toast('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
+function zerar(){modalConfirm('Tem certeza? Todo o progresso será apagado.',()=>{localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);});}
+
+carregar();render();
+</script>
+</body>
+</html>
