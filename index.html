@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Ateliê Geométrico — Kit de Estudos | Geometria (6º ano)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bp:#0e2841; --bp2:#153a5e; --bp3:#1d4b78;
+    --linha:#5ec8ff; --linha-esc:#2a8fd0;
+    --tinta:#eaf6ff; --tinta2:#a9c7e0;
+    --amarelo:#ffd23f; --amarelo-cl:#fff0b8;
+    --verde:#4bd08b; --verde-bg:#12433a;
+    --verm:#ff6b81;
+    --papel:#12324f; --borda:#2a527d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;color:var(--tinta);
+    background:
+      linear-gradient(rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+      linear-gradient(90deg,rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+      linear-gradient(180deg,#0c2338,#0e2841);
+    background-attachment:fixed;min-height:100vh;padding:20px;line-height:1.55;}
+  .container{max-width:900px;margin:0 auto;}
+  .capa{background:linear-gradient(135deg,var(--bp2),var(--bp3));border:3px solid var(--linha);border-radius:20px;padding:38px 28px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.35);margin-bottom:24px;color:#fff;}
+  .capa .badge{display:inline-block;background:var(--linha);color:#06263f;font-family:'Fredoka';font-size:11px;font-weight:700;padding:5px 14px;border-radius:8px;letter-spacing:2px;margin-bottom:14px;border:2px solid #fff;}
+  .capa h1{font-family:'Fredoka';font-size:2.3em;text-shadow:0 2px 0 #06263f;margin-bottom:10px;}
+  .capa .sub{color:var(--amarelo-cl);font-size:1.1em;margin-bottom:14px;}
+  .capa .narr{font-size:.98em;border-top:2px dashed var(--linha);padding-top:14px;margin-top:12px;color:#dcefff;}
+  .intro{background:var(--papel);border:1px solid var(--borda);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+  .intro h2{font-family:'Fredoka';color:var(--linha);font-size:1.15em;margin-bottom:10px;}
+  .intro p{margin-bottom:8px;}
+  .intro b{color:var(--amarelo);}
+  .aviso{background:var(--verde-bg);border:2px dashed var(--verde);border-radius:10px;padding:14px 18px;margin-bottom:22px;font-size:.95em;}
+  .aviso b{color:var(--verde);}
+  .materiais{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:26px;}
+  .card-material{background:var(--papel);border:2px solid;border-radius:16px;padding:20px 24px;text-decoration:none;color:var(--tinta);display:block;transition:all .25s;}
+  .card-material:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(0,0,0,.35);}
+  .card-1{border-color:var(--linha);}.card-1 .card-titulo{color:var(--linha);}
+  .card-2{border-color:var(--amarelo);}.card-2 .card-titulo{color:var(--amarelo);}
+  .card-3{border-color:var(--verm);}.card-3 .card-titulo{color:var(--verm);}
+  .card-4{border-color:var(--verde);}.card-4 .card-titulo{color:var(--verde);}
+  .card-cabecalho{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+  .card-icone{font-size:2.3em;}
+  .card-titulo{font-family:'Fredoka';font-size:1.2em;font-weight:600;flex:1;min-width:200px;}
+  .card-etiqueta{background:#0d283f;color:var(--linha);padding:4px 12px;border-radius:15px;font-size:.78em;border:1px solid var(--linha);font-weight:800;}
+  .card-descricao{color:var(--tinta2);font-size:.98em;margin-bottom:10px;}
+  .card-acessar{color:var(--linha);font-weight:800;text-align:right;font-size:.98em;}
+  .card-acessar::after{content:" →";margin-left:4px;transition:margin .3s;}
+  .card-material:hover .card-acessar::after{margin-left:12px;}
+  .cronograma{background:var(--papel);border:2px solid var(--verde);border-radius:16px;padding:22px 25px;margin-bottom:22px;}
+  .cronograma h2{font-family:'Fredoka';color:var(--verde);font-size:1.2em;margin-bottom:14px;border-bottom:2px dashed var(--borda);padding-bottom:8px;}
+  .dia{background:var(--verde-bg);border-radius:10px;padding:13px 16px;margin-bottom:10px;border-left:5px solid var(--verde);}
+  .dia-titulo{color:var(--verde);font-weight:800;font-size:1.03em;margin-bottom:4px;}
+  .dia-conteudo b{color:var(--amarelo);}
+  .dica-mae{background:#0d283f;border:2px solid var(--amarelo);border-radius:14px;padding:18px 22px;margin-bottom:22px;}
+  .dica-mae h2{font-family:'Fredoka';color:var(--amarelo);font-size:1.1em;margin-bottom:10px;}
+  .dica-mae p{margin-bottom:8px;font-size:.95em;}
+  .dica-mae b{color:var(--amarelo);}
+  .dica-mae code{background:#0a1e30;padding:2px 8px;border-radius:4px;font-family:monospace;color:var(--amarelo);font-weight:700;}
+  .rodape{text-align:center;color:var(--tinta2);font-weight:700;padding:18px;border-top:2px dashed var(--borda);margin-top:10px;font-size:.9em;}
+  @media(max-width:600px){.capa h1{font-size:1.6em;}.card-titulo{font-size:1.05em;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="capa">
+    <div class="badge">MATEMÁTICA • 6º ANO • GEOMETRIA</div>
+    <h1>📐 Ateliê Geométrico</h1>
+    <div class="sub">Kit de Estudos — Avaliação Mensal 1 (Caps. 8, 11 e 14)</div>
+    <div class="narr">Bem-vindo(a) ao ateliê, jovem arquiteto(a)! 📏 Aqui você vira mestre em <b>polígonos</b>, <b>circunferências</b> e <b>sólidos geométricos</b>. Siga a ordem dos materiais, treine bastante e chegue com tudo pronto no dia 10/09. 🧊</div>
+  </div>
+
+  <div class="intro">
+    <h2>🧭 Como funciona</h2>
+    <p>Kit completo para a <b>Avaliação Mensal 1</b> de Matemática do 6º ano — assuntos: <b>Cap. 8 (Polígonos)</b>, <b>Cap. 11 (Circunferência e círculo)</b> e <b>Cap. 14 (Sólidos geométricos)</b>. São <b>4 materiais</b> que se completam:</p>
+    <p>1️⃣ Aprenda com a <b>Leitura Estendida</b> → 2️⃣ revise no <b>Resumo</b> → 3️⃣ treine no <b>Simulado</b> → 4️⃣ leve a <b>Folha de Regras impressa</b> no dia da prova.</p>
+    <p>Os materiais em HTML <b>salvam o progresso sozinhos</b> no navegador — pode fechar e voltar depois que continua de onde parou.</p>
+  </div>
+
+  <div class="aviso">💾 <b>Sobre o salvamento:</b> o progresso fica salvo no <b>navegador em uso</b> (o Chrome do celular é diferente do Chrome do computador). Para passar o progresso de um aparelho para outro, use os botões <b>📥 Exportar</b> e <b>📤 Importar</b> dentro de cada material.</div>
+
+  <div class="materiais">
+
+    <a href="leitura-estendida.html" class="card-material card-1">
+      <div class="card-cabecalho">
+        <div class="card-icone">📚</div>
+        <div class="card-titulo">Leitura Estendida com Fixação</div>
+        <div class="card-etiqueta">⭐ COMECE AQUI</div>
+      </div>
+      <div class="card-descricao">Todo o conteúdo em 11 pranchas, cada uma com exercícios. A próxima prancha só é liberada quando você acerta pelo menos <b>70%</b> — assim você domina antes de avançar.</div>
+      <div class="card-acessar">Entrar no ateliê</div>
+    </a>
+
+    <a href="resumo.html" class="card-material card-2">
+      <div class="card-cabecalho">
+        <div class="card-icone">🗂️</div>
+        <div class="card-titulo">Resumo Rápido</div>
+        <div class="card-etiqueta">REVISÃO</div>
+      </div>
+      <div class="card-descricao">Tudo que cai na prova em cartões, cartões que viram (flip cards), dicas em post-its, pegadinhas, glossário e um checklist de revisão para marcar o que já domina.</div>
+      <div class="card-acessar">Abrir o resumo</div>
+    </a>
+
+    <a href="simulado.html" class="card-material card-3">
+      <div class="card-cabecalho">
+        <div class="card-icone">🎯</div>
+        <div class="card-titulo">Simulado</div>
+        <div class="card-etiqueta">TESTE-SE</div>
+      </div>
+      <div class="card-descricao">27 questões no estilo da prova (objetivas + 3 de afirmativas I, II, III, IV), com correção comentada. Ao terminar, gera um <b>código</b> para liberar o gabarito só depois — combinado com um adulto.</div>
+      <div class="card-acessar">Fazer o simulado</div>
+    </a>
+
+    <a href="folha-de-regras.html" class="card-material card-4">
+      <div class="card-cabecalho">
+        <div class="card-icone">🖨️</div>
+        <div class="card-titulo">Folha de Regras (para imprimir)</div>
+        <div class="card-etiqueta">IMPRIMIR</div>
+      </div>
+      <div class="card-descricao">Um resumão de uma página só, em A4 paisagem, com as regras separadas por cor: polígonos, circunferência/círculo, sólidos e as pegadinhas. Abra e clique em <b>🖨️ Imprimir</b> — cole na parede!</div>
+      <div class="card-acessar">Abrir a folha</div>
+    </a>
+
+  </div>
+
+  <div class="cronograma">
+    <h2>📅 Sugestão de cronograma</h2>
+    <div class="dia"><div class="dia-titulo">Dia 1 — Polígonos</div><div class="dia-conteudo">Faça as <b>pranchas 1 a 6</b> da Leitura Estendida (formas planas, polígonos, ângulos, nomes, quadriláteros e triângulos). Depois dê uma olhada no Resumo.</div></div>
+    <div class="dia"><div class="dia-titulo">Dia 2 — Circunferência e sólidos</div><div class="dia-conteudo">Faça as <b>pranchas 7 a 11</b> (circunferência, círculo, sólidos, prismas, pirâmides e corpos redondos). Revise essas regras no Resumo.</div></div>
+    <div class="dia"><div class="dia-titulo">Dia 3 — Treino</div><div class="dia-conteudo">Faça o <b>Simulado</b> inteiro. Confira o gabarito comentado e volte à Leitura nos pontos que errou.</div></div>
+    <div class="dia"><div class="dia-titulo">Véspera da prova (dia 09/09)</div><div class="dia-conteudo">Leia a <b>Folha de Regras</b> impressa e refaça as questões que errou. Descanse bem! 😴</div></div>
+  </div>
+
+  <div class="dica-mae">
+    <h2>👩‍🏫 Dica para a mãe/responsável</h2>
+    <p>No <b>Simulado</b>, quando o(a) aluno(a) termina, aparece um <b>código</b> parecido com <code>SIM-24-KP</code>. O gabarito comentado só é liberado quando esse código é digitado.</p>
+    <p>A ideia é simples: a criança faz a prova <b>sozinha</b>, te mostra o código, e você autoriza a correção. O número no meio do código (ex.: <b>24</b>) já é a <b>quantidade de acertos</b> — dá para saber como foi só de olhar. 😉</p>
+  </div>
+
+  <div class="rodape">Ateliê Geométrico · Kit de Estudos · Matemática 6º ano — Geometria (Caps. 8, 11 e 14) 📐</div>
+
+</div>
+</body>
+</html>
