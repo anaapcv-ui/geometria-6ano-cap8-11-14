@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Simulado — Ateliê Geométrico (6º ano)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bp:#0e2841; --bp2:#153a5e; --bp3:#1d4b78;
+  --linha:#5ec8ff; --linha-esc:#2a8fd0;
+  --tinta:#eaf6ff; --tinta2:#a9c7e0;
+  --amarelo:#ffd23f; --amarelo-cl:#fff0b8;
+  --verde:#4bd08b; --verde-bg:#12433a;
+  --verm:#ff6b81; --verm-bg:#3d1f2b; --verm-esc:#c23048;
+  --papel:#12324f; --borda:#2a527d;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--tinta);
+  background:
+    linear-gradient(rgba(94,200,255,.05) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(90deg,rgba(94,200,255,.05) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(180deg,#0c2338,#0e2841);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;}
+.header{background:linear-gradient(135deg,#0a2036,#123152);text-align:center;padding:30px 18px 24px;border-bottom:6px solid var(--verm);color:#fff;}
+.header .selo{display:inline-block;background:var(--verm);border:2px solid var(--amarelo);color:#fff;font-size:11px;font-weight:800;letter-spacing:2px;padding:5px 14px;border-radius:20px;margin-bottom:12px;font-family:'Fredoka';}
+.header h1{font-family:'Fredoka';font-weight:700;font-size:clamp(22px,5vw,36px);}
+.header p{color:var(--amarelo-cl);font-size:14px;margin-top:8px;}
+.progresso{position:sticky;top:0;z-index:30;background:rgba(10,32,54,.97);padding:11px 16px;color:#fff;}
+.prog-info{max-width:820px;margin:0 auto 6px;display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;}
+.prog-trilho{max-width:820px;margin:0 auto;height:12px;background:rgba(255,255,255,.15);border-radius:8px;overflow:hidden;}
+.prog-fill{height:100%;width:0;background:var(--verm);transition:width .4s;}
+.painel{max-width:820px;margin:16px auto 0;padding:0 16px;}
+.painel-in{background:var(--papel);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:12px;}
+.painel-in .info{color:var(--tinta2);flex:1;min-width:180px;}.painel-in .info b{color:var(--tinta);}
+.mini{background:transparent;border:1px solid var(--borda);color:var(--tinta2);padding:5px 11px;border-radius:16px;cursor:pointer;font-size:11px;font-weight:800;font-family:'Nunito';}
+.mini:hover{border-color:var(--linha);color:var(--linha);}
+.wrap{max-width:820px;margin:0 auto;padding:18px 16px 140px;}
+.intro{background:var(--papel);border:1px solid var(--borda);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:14px;color:var(--tinta2);}
+.intro b{color:var(--amarelo);}
+.bloco-tit{font-family:'Fredoka';color:#fff;background:var(--bp3);border-radius:10px;padding:9px 16px;margin:22px 0 12px;font-size:15.5px;}
+.bloco-tit.rom{background:var(--verm-esc);}
+.q-card{background:var(--papel);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin-bottom:14px;position:relative;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.q-card.faltando{border-color:var(--verm);animation:treme .5s;}
+@keyframes treme{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+.q-num{position:absolute;top:-11px;left:16px;background:var(--verm);color:#fff;font-family:'Fredoka';font-weight:700;font-size:13px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--papel);}
+.q-texto{font-weight:700;font-size:15px;margin:6px 0 12px;}
+.afirm{background:#0d283f;border:1px dashed var(--linha-esc);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:14.5px;}
+.afirm div{margin:5px 0;}
+.opcoes{display:flex;flex-direction:column;gap:8px;}
+.opcao{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid var(--borda);border-radius:9px;cursor:pointer;transition:.16s;font-size:14.5px;background:var(--bp2);}
+.opcao:hover{border-color:var(--linha);background:#173d5e;}
+.opcao.selecionada{border-color:var(--linha);background:#173d5e;font-weight:700;}
+.opcao-letra{min-width:24px;height:24px;border-radius:50%;background:#0a1e30;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0;color:var(--tinta2);}
+.opcao.selecionada .opcao-letra{background:var(--linha);color:#06263f;}
+.q-card.bloqueada .opcao{pointer-events:none;}
+.opcao.resposta-certa{border-color:var(--verde);background:var(--verde-bg);}
+.opcao.resposta-certa .opcao-letra{background:var(--verde);color:#06263f;}
+.opcao.errada{border-color:var(--verm);background:var(--verm-bg);}
+.opcao.errada .opcao-letra{background:var(--verm);color:#fff;}
+.feedback{display:none;margin-top:11px;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;}
+.feedback.acertou{background:var(--verde-bg);border:1px solid var(--verde);}
+.feedback.errou{background:var(--verm-bg);border:1px solid var(--verm);}
+.feedback-titulo{font-weight:800;margin-bottom:5px;}
+.feedback-erradas{margin-top:8px;font-size:12.8px;color:var(--tinta2);}
+.feedback-erradas p{margin:3px 0;}
+.bottomBar{position:fixed;bottom:0;left:0;right:0;background:rgba(10,32,54,.97);padding:12px 16px;z-index:40;}
+.bottomBar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;}
+.avisoFaltam{display:none;color:var(--amarelo-cl);font-size:12.5px;font-weight:700;}
+.btn-enviar{font-family:'Fredoka';font-weight:700;background:var(--verm);color:#fff;border:none;border-radius:12px;padding:13px 30px;font-size:16px;cursor:pointer;transition:.2s;}
+.btn-enviar.desabilitado{opacity:.4;cursor:not-allowed;}
+.btn-enviar.ativo:hover{background:var(--amarelo);color:#06263f;}
+.trava-msg{display:none;background:var(--papel);border:2px dashed var(--verm);border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;font-size:14.5px;}
+.trava-msg.visivel{display:block;}
+.resultadoBarra{display:none;position:sticky;top:0;z-index:30;background:var(--bp3);color:#fff;padding:11px 16px;font-weight:800;font-size:13.5px;}
+.resultadoBarra.visivel{display:block;}
+.resultadoBarra-in{max-width:820px;margin:0 auto;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center;}
+.rbStatus.bloqueado{color:var(--amarelo-cl);}.rbStatus.liberado{color:#b8f0c0;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(6,20,32,.8);z-index:60;align-items:center;justify-content:center;padding:20px;}
+.overlay.visivel{display:flex;}
+.res-card{background:var(--papel);border-radius:20px;padding:32px 26px;max-width:410px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);border:3px solid var(--linha);}
+.res-card .emoji{font-size:52px;}
+.res-card h2{font-family:'Fredoka';color:var(--linha);font-size:24px;margin:6px 0;}
+.res-card .nota{font-size:36px;font-weight:800;color:var(--amarelo);font-family:'Fredoka';}
+.res-card .msg{font-size:14.5px;color:var(--tinta2);margin:8px 0 16px;}
+.res-card .cod{background:#0d283f;border:2px dashed var(--linha-esc);border-radius:10px;padding:12px;font-family:monospace;font-size:22px;font-weight:800;color:var(--amarelo);letter-spacing:2px;}
+.res-card .cod-label{font-size:12px;color:var(--tinta2);margin-bottom:4px;}
+.res-card input{padding:10px 14px;border:1px solid var(--borda);border-radius:8px;font-size:16px;text-align:center;width:240px;font-family:monospace;text-transform:uppercase;background:#0a1e30;color:var(--tinta);}
+.res-card button{margin-top:16px;font-family:'Fredoka';background:var(--verm);color:#fff;border:none;border-radius:12px;padding:11px 26px;font-size:15px;cursor:pointer;}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%) translateY(60px);background:var(--linha);color:#06263f;padding:12px 20px;border-radius:30px;font-weight:800;font-size:14px;z-index:80;opacity:0;transition:.35s;}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="selo">📐 SIMULADO · MATEMÁTICA · 6º ANO</div>
+  <h1>Simulado — Ateliê Geométrico</h1>
+  <p>Capítulos 8, 11 e 14 · <span id="totQ">27</span> questões</p>
+</div>
+
+<div class="resultadoBarra" id="resultadoBarra"><div class="resultadoBarra-in"><span id="rbNota">📋</span><span id="rbCodigo"></span><span class="rbStatus bloqueado" id="rbStatus">🔒 Gabarito bloqueado</span></div></div>
+
+<div class="progresso">
+  <div class="prog-info"><span id="progTexto">0 de 27 respondidas</span><span id="progPct">0%</span></div>
+  <div class="prog-trilho"><div class="prog-fill" id="progFill"></div></div>
+</div>
+
+<div class="painel">
+  <div class="painel-in">
+    <div class="info">💾 Respostas salvas neste navegador. Último salvamento: <b id="ultimo">—</b></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <label class="mini" style="display:inline-block">📤 Importar<input type="file" accept="application/json" onchange="importar(event)" style="display:none"></label>
+      <button class="mini" onclick="zerar()">🗑️ Zerar</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">✏️ Responda <b>todas as questões</b> sozinho(a). Ao terminar, aparece um <b>código</b> (ex.: <b>SIM-24-KP</b>). Mostre para um adulto: o número do meio já é a sua <b>quantidade de acertos</b>. Só depois de digitar o código o <b>gabarito comentado</b> aparece. Boa prova! 🍀</div>
+  <div id="simArea"></div>
+</div>
+
+<div class="bottomBar" id="bottomBar"><div class="bottomBar-in">
+  <span class="avisoFaltam" id="avisoFaltam"></span>
+  <button class="btn-enviar desabilitado" id="btnEnviar" onclick="tentarEnviar()">Entregar simulado ✓</button>
+</div></div>
+
+<div class="overlay" id="resultadoOverlay"><div class="res-card">
+  <div class="emoji" id="resEmoji">📐</div>
+  <h2 id="resTitulo"></h2>
+  <div class="nota" id="resNota"></div>
+  <div class="msg" id="resMsg"></div>
+  <div class="cod-label">Seu código (mostre a um adulto):</div>
+  <div class="cod" id="resCodigo"></div>
+  <button onclick="fecharResultado()">Entendi</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Cada questão: opts = [{t:texto, ok:boolean, e:explicacao/porque}]. Exatamente 1 ok:true.
+const SIM=[
+ {bloco:"🔺 Bloco 1 — Polígonos (Cap. 8)"},
+ {q:`Qual característica define um polígono?`,opts:[
+   {t:"Figura plana, fechada, feita só de segmentos de reta",ok:true,e:"Polígono é uma figura plana e fechada, formada apenas por segmentos de reta que se tocam nas extremidades."},
+   {t:"Qualquer figura curva e fechada",ok:false,e:"Figuras curvas (como a circunferência) não são polígonos."},
+   {t:"Uma figura tridimensional",ok:false,e:"Polígono é bidimensional (plano), não um sólido."},
+   {t:"Uma figura aberta com lados retos",ok:false,e:"Polígono precisa ser fechado; figuras abertas não são polígonos."}]},
+ {q:`Qual das figuras a seguir NÃO é um polígono?`,opts:[
+   {t:"A circunferência",ok:true,e:"A circunferência é uma linha curva, e polígonos são feitos só de segmentos de reta."},
+   {t:"O triângulo",ok:false,e:"O triângulo é um polígono de 3 lados."},
+   {t:"O pentágono",ok:false,e:"O pentágono é um polígono de 5 lados."},
+   {t:"O hexágono",ok:false,e:"O hexágono é um polígono de 6 lados."}]},
+ {q:`A diagonal de um polígono é o segmento que liga:`,opts:[
+   {t:"Dois vértices não consecutivos (não vizinhos)",ok:true,e:"Diagonal liga vértices que não são vizinhos. Vizinhos já são ligados por um lado."},
+   {t:"Dois lados vizinhos",ok:false,e:"Isso descreve um vértice, não uma diagonal."},
+   {t:"O centro a um vértice",ok:false,e:"Polígono qualquer não tem 'raio'; isso é da circunferência."},
+   {t:"Dois pontos quaisquer da figura",ok:false,e:"Diagonal liga vértices específicos, não pontos quaisquer."}]},
+ {q:`Num vértice, o ângulo interno mede 100°. Quanto mede o ângulo externo?`,opts:[
+   {t:"80°",ok:true,e:"Interno + externo = 180°. Então 180° − 100° = 80°."},
+   {t:"100°",ok:false,e:"Seriam iguais só se cada um medisse 90°."},
+   {t:"260°",ok:false,e:"O externo não é o que falta para 360°, e sim para 180°."},
+   {t:"200°",ok:false,e:"A soma dos dois é 180°, não pode dar 200° o externo."}]},
+ {q:`Um polígono de 7 lados chama-se:`,opts:[
+   {t:"Heptágono",ok:true,e:"7 lados = heptágono (prefixo 'hepta' = sete)."},
+   {t:"Hexágono",ok:false,e:"Hexágono tem 6 lados."},
+   {t:"Octógono",ok:false,e:"Octógono tem 8 lados."},
+   {t:"Pentágono",ok:false,e:"Pentágono tem 5 lados."}]},
+ {q:`Para um polígono ser REGULAR, é necessário que ele tenha:`,opts:[
+   {t:"Todos os lados iguais E todos os ângulos iguais",ok:true,e:"Regular exige lados congruentes E ângulos internos congruentes."},
+   {t:"Apenas todos os lados iguais",ok:false,e:"Só lados iguais não basta (ex.: losango tem lados iguais mas não é regular)."},
+   {t:"Apenas todos os ângulos iguais",ok:false,e:"Só ângulos iguais não basta (ex.: retângulo)."},
+   {t:"Muitos lados",ok:false,e:"A quantidade de lados não define ser regular."}]},
+ {q:`O quadrilátero que possui apenas UM par de lados paralelos é o:`,opts:[
+   {t:"Trapézio",ok:true,e:"O trapézio tem exatamente um par de lados paralelos (base maior e menor)."},
+   {t:"Quadrado",ok:false,e:"O quadrado tem dois pares de lados paralelos."},
+   {t:"Losango",ok:false,e:"O losango tem dois pares de lados paralelos."},
+   {t:"Retângulo",ok:false,e:"O retângulo tem dois pares de lados paralelos."}]},
+ {q:`Um triângulo com os três lados de medidas iguais é classificado como:`,opts:[
+   {t:"Equilátero",ok:true,e:"Três lados iguais = triângulo equilátero."},
+   {t:"Escaleno",ok:false,e:"Escaleno tem os três lados diferentes."},
+   {t:"Isósceles apenas",ok:false,e:"Isósceles tem (pelo menos) dois lados iguais; com três é equilátero."},
+   {t:"Retângulo",ok:false,e:"Retângulo classifica pelo ângulo (90°), não pelos lados."}]},
+
+ {bloco:"⭕ Bloco 2 — Circunferência e círculo (Cap. 11)"},
+ {q:`A distância entre o centro e qualquer ponto da circunferência é o:`,opts:[
+   {t:"Raio",ok:true,e:"Essa distância constante é o raio."},
+   {t:"Diâmetro",ok:false,e:"Diâmetro passa pelo centro e vale o dobro do raio."},
+   {t:"Comprimento",ok:false,e:"Comprimento é o tamanho de uma volta completa."},
+   {t:"Arco",ok:false,e:"Arco é uma parte da linha entre dois pontos."}]},
+ {q:`Se o raio de uma circunferência mede 9 cm, seu diâmetro mede:`,opts:[
+   {t:"18 cm",ok:true,e:"Diâmetro = 2 × raio = 2 × 9 = 18 cm."},
+   {t:"4,5 cm",ok:false,e:"Isso seria metade do raio, não o diâmetro."},
+   {t:"9 cm",ok:false,e:"9 cm é o próprio raio."},
+   {t:"27 cm",ok:false,e:"O diâmetro é o dobro (18), não o triplo do raio."}]},
+ {q:`Um pedaço de pizza (uma fatia) representa geometricamente um:`,opts:[
+   {t:"Setor circular",ok:true,e:"A fatia, entre dois raios e um arco, é um setor circular."},
+   {t:"Círculo",ok:false,e:"O círculo é a figura inteira, não uma fatia."},
+   {t:"Diâmetro",ok:false,e:"Diâmetro é um segmento, não uma região."},
+   {t:"Coroa circular",ok:false,e:"Coroa é a região entre dois círculos concêntricos."}]},
+ {q:`Um CD, redondo e com um furo de mesmo centro, lembra geometricamente uma:`,opts:[
+   {t:"Coroa circular",ok:true,e:"A região entre dois círculos concêntricos de raios diferentes é a coroa circular."},
+   {t:"Semicircunferência",ok:false,e:"Semicircunferência é metade da linha, não uma região com furo."},
+   {t:"Corda",ok:false,e:"Corda é um segmento, não uma região."},
+   {t:"Setor circular",ok:false,e:"Setor é uma fatia, não um anel."}]},
+ {q:`Qual é a diferença entre círculo e circunferência?`,opts:[
+   {t:"O círculo inclui também toda a região interna; a circunferência é só a linha",ok:true,e:"Circunferência = só a linha curva. Círculo = a linha + o miolo cheio."},
+   {t:"São exatamente a mesma coisa",ok:false,e:"Não são: uma é só a linha, a outra é a figura cheia."},
+   {t:"O círculo é sempre maior",ok:false,e:"O tamanho não é a diferença; a diferença é incluir ou não o interior."},
+   {t:"A circunferência tem interior e o círculo não",ok:false,e:"É o contrário: quem inclui o interior é o círculo."}]},
+ {q:`Uma volta completa em uma circunferência corresponde a um ângulo de:`,opts:[
+   {t:"360°",ok:true,e:"Uma volta completa = 360°."},
+   {t:"180°",ok:false,e:"180° é meia volta (semicircunferência)."},
+   {t:"90°",ok:false,e:"90° é um quarto de volta."},
+   {t:"270°",ok:false,e:"270° é três quartos de volta."}]},
+ {q:`Uma corda que passa pelo centro da circunferência é chamada de:`,opts:[
+   {t:"Diâmetro",ok:true,e:"A corda que passa pelo centro é o diâmetro (a maior de todas)."},
+   {t:"Raio",ok:false,e:"O raio vai do centro até a linha, não de ponta a ponta."},
+   {t:"Arco",ok:false,e:"Arco é uma parte curva da linha."},
+   {t:"Setor",ok:false,e:"Setor é uma região, não um segmento."}]},
+ {q:`A Linha do Equador, que dá a volta na Terra, é um bom exemplo de:`,opts:[
+   {t:"Circunferência",ok:true,e:"É uma linha curva fechada em volta do centro — uma circunferência."},
+   {t:"Círculo",ok:false,e:"Círculo incluiria toda a região interna; a Linha do Equador é só a linha."},
+   {t:"Diâmetro",ok:false,e:"Diâmetro é um segmento reto, não uma linha curva fechada."},
+   {t:"Setor circular",ok:false,e:"Setor é uma fatia, não a linha inteira."}]},
+
+ {bloco:"🧊 Bloco 3 — Sólidos geométricos (Cap. 14)"},
+ {q:`Sólidos formados apenas por faces planas (polígonos) são chamados de:`,opts:[
+   {t:"Poliedros",ok:true,e:"Poliedros têm faces planas poligonais (cubo, prisma, pirâmide)."},
+   {t:"Corpos redondos",ok:false,e:"Corpos redondos têm partes curvas (cilindro, cone, esfera)."},
+   {t:"Círculos",ok:false,e:"Círculo é figura plana, não um sólido."},
+   {t:"Polígonos",ok:false,e:"Polígono é figura plana; o sólido de faces planas é o poliedro."}]},
+ {q:`A "aresta" de um poliedro é:`,opts:[
+   {t:"O encontro (interseção) de duas faces",ok:true,e:"Aresta é a linha onde duas faces se encontram (a 'quina')."},
+   {t:"Cada polígono que forma o sólido",ok:false,e:"Isso é a face, não a aresta."},
+   {t:"O ponto onde as arestas se encontram",ok:false,e:"Isso é o vértice."},
+   {t:"A parte curva do sólido",ok:false,e:"Poliedros não têm partes curvas."}]},
+ {q:`Um cubo tem 6 faces e 8 vértices. Pela relação de Euler (V − A + F = 2), quantas arestas ele tem?`,opts:[
+   {t:"12",ok:true,e:"8 − A + 6 = 2 → 14 − A = 2 → A = 12 arestas."},
+   {t:"6",ok:false,e:"6 é o número de faces, não de arestas."},
+   {t:"8",ok:false,e:"8 é o número de vértices."},
+   {t:"10",ok:false,e:"Refazendo Euler: 8 − A + 6 = 2 dá A = 12."}]},
+ {q:`O cilindro é um sólido gerado pela rotação de um:`,opts:[
+   {t:"Retângulo",ok:true,e:"Girando um retângulo em torno de um eixo, obtemos o cilindro."},
+   {t:"Triângulo",ok:false,e:"O triângulo gera o cone."},
+   {t:"Círculo",ok:false,e:"O giro é de um retângulo; o círculo é a base do cilindro."},
+   {t:"Pentágono",ok:false,e:"Pentágono geraria um sólido de faces planas, não um corpo redondo."}]},
+ {q:`O cone é um sólido gerado pela rotação de um:`,opts:[
+   {t:"Triângulo",ok:true,e:"Girando um triângulo em torno de um eixo, obtemos o cone."},
+   {t:"Retângulo",ok:false,e:"O retângulo gera o cilindro."},
+   {t:"Quadrado",ok:false,e:"O quadrado não gera um cone por rotação simples."},
+   {t:"Semicircunferência",ok:false,e:"A semicircunferência gera a esfera."}]},
+ {q:`A esfera é um sólido gerado pela rotação de uma:`,opts:[
+   {t:"Semicircunferência (em torno do diâmetro)",ok:true,e:"Girando uma semicircunferência em torno do seu diâmetro, obtemos a esfera."},
+   {t:"Reta",ok:false,e:"Uma reta não gera uma esfera."},
+   {t:"Corda",ok:false,e:"Corda é um segmento; não gera esfera."},
+   {t:"Coroa circular",ok:false,e:"Coroa é uma região plana; não é o que gera a esfera."}]},
+ {q:`Quantas arestas tem um prisma de base pentagonal (prisma pentagonal)?`,opts:[
+   {t:"15",ok:true,e:"São 5 arestas na base de baixo, 5 na de cima e 5 laterais: 5+5+5 = 15."},
+   {t:"5",ok:false,e:"5 é o número de lados de UMA base, não o total de arestas."},
+   {t:"10",ok:false,e:"10 seriam só as arestas das duas bases; faltam as 5 laterais."},
+   {t:"12",ok:false,e:"12 arestas é do cubo, não do prisma pentagonal."}]},
+ {q:`Quantos são os poliedros regulares (Sólidos de Platão)?`,opts:[
+   {t:"5",ok:true,e:"São exatamente cinco: tetraedro, cubo, octaedro, dodecaedro e icosaedro."},
+   {t:"3",ok:false,e:"São mais que três: existem cinco."},
+   {t:"6",ok:false,e:"São cinco, não seis."},
+   {t:"Infinitos",ok:false,e:"Só existem cinco poliedros regulares."}]},
+
+ {bloco:"📋 Bloco 4 — Analise as afirmativas (I, II, III, IV)"},
+ {q:`Sobre polígonos, analise as afirmativas:`,
+  afirm:["I. Todo polígono é uma figura fechada.","II. A circunferência é um polígono.","III. Em cada vértice, ângulo interno + ângulo externo = 180°.","IV. O losango é um polígono regular."],
+  opts:[
+   {t:"Apenas I e III estão corretas",ok:true,e:"I e III são verdadeiras. II é falsa (a circunferência é curva) e IV é falsa (o losango tem lados iguais, mas ângulos diferentes)."},
+   {t:"Apenas II e IV estão corretas",ok:false,e:"II e IV são justamente as FALSAS."},
+   {t:"Apenas I, II e III estão corretas",ok:false,e:"A II é falsa: a circunferência não é polígono."},
+   {t:"Todas estão corretas",ok:false,e:"II e IV são falsas, então nem todas estão corretas."}]},
+ {q:`Sobre circunferência e círculo, analise as afirmativas:`,
+  afirm:["I. O diâmetro vale o dobro do raio.","II. O círculo inclui a região interna à circunferência.","III. Toda corda passa pelo centro.","IV. Uma volta completa mede 360°."],
+  opts:[
+   {t:"Apenas I, II e IV estão corretas",ok:true,e:"I, II e IV são verdadeiras. III é falsa: só a corda que passa pelo centro (o diâmetro) faz isso."},
+   {t:"Apenas III está correta",ok:false,e:"A III é justamente a única FALSA."},
+   {t:"Apenas I e III estão corretas",ok:false,e:"A III é falsa e faltam a II e a IV, que são verdadeiras."},
+   {t:"Todas estão corretas",ok:false,e:"A III é falsa (nem toda corda passa pelo centro)."}]},
+ {q:`Sobre sólidos geométricos, analise as afirmativas:`,
+  afirm:["I. O cilindro é um poliedro.","II. O prisma tem duas bases poligonais iguais e paralelas.","III. Existem 5 poliedros regulares (Sólidos de Platão).","IV. Na pirâmide, as faces laterais são triângulos."],
+  opts:[
+   {t:"Apenas II, III e IV estão corretas",ok:true,e:"II, III e IV são verdadeiras. I é falsa: o cilindro é um corpo redondo, não um poliedro."},
+   {t:"Apenas I e II estão corretas",ok:false,e:"A I é falsa: o cilindro não é poliedro."},
+   {t:"Apenas I, III e IV estão corretas",ok:false,e:"A I é falsa; quem entra no lugar dela é a II."},
+   {t:"Todas estão corretas",ok:false,e:"A I é falsa (cilindro é corpo redondo)."}]}
+];
+
+// embaralhar as alternativas (semente fixa por questão), rastreando a certa pelo conteúdo
+let qi=-1;
+SIM.forEach(item=>{
+  if(item.bloco)return;qi++;const seed=qi*131+29;
+  let r=seed;const rnd=()=>{r=(r*1103515245+12345)&0x7fffffff;return r/0x7fffffff;};
+  const a=item.opts.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  item.opts=a;item.correta=a.findIndex(o=>o.ok);
+});
+
+const QUESTOES=SIM.filter(x=>x.q);
+const TOTAL=QUESTOES.length;
+let respostas=QUESTOES.map(()=>-1);
+let enviado=false,codigoLiberado=false,codigoGerado=null;
+const CHAVE='kit_mat6_geo_cap8_11_14_simulado_v1';
+document.getElementById('totQ').textContent=TOTAL;
+
+function init(){
+ const area=document.getElementById('simArea');const letras=['A','B','C','D'];
+ let idx=-1;
+ SIM.forEach(item=>{
+   if(item.bloco){
+     const cls=item.bloco.includes('afirmativas')?'rom':'';
+     area.innerHTML+=`<div class="bloco-tit ${cls}">${item.bloco}</div>`;return;
+   }
+   idx++;const i=idx;
+   let af=item.afirm?`<div class="afirm">${item.afirm.map(a=>`<div>${a}</div>`).join('')}</div>`:'';
+   let html=`<div class="q-card" id="qcard${i}"><div class="q-num">${i+1}</div><div class="q-texto">${i+1}. ${item.q}</div>${af}<div class="opcoes">`;
+   item.opts.forEach((opt,j)=>{html+=`<div class="opcao" id="opt${i}_${j}" onclick="selecionar(${i},${j})"><span class="opcao-letra">${letras[j]}</span><span>${opt.t}</span></div>`;});
+   html+=`</div><div class="feedback" id="fb${i}"></div></div>`;area.innerHTML+=html;
+ });
+ carregarProgresso();
+}
+function selecionar(q,oi){
+ if(enviado)return;
+ for(let j=0;j<QUESTOES[q].opts.length;j++)document.getElementById(`opt${q}_${j}`).classList.remove('selecionada');
+ document.getElementById(`opt${q}_${oi}`).classList.add('selecionada');
+ respostas[q]=oi;
+ document.getElementById(`qcard${q}`).classList.remove('faltando');
+ atualizarProgresso();salvarProgresso();
+}
+function atualizarProgresso(){
+ const resp=respostas.filter(r=>r>=0).length;const pct=Math.round(resp/TOTAL*100);
+ document.getElementById('progTexto').textContent=`${resp} de ${TOTAL} respondidas`;
+ document.getElementById('progPct').textContent=`${pct}%`;
+ document.getElementById('progFill').style.width=`${pct}%`;
+ const btn=document.getElementById('btnEnviar');
+ if(resp===TOTAL){btn.classList.remove('desabilitado');btn.classList.add('ativo');}else{btn.classList.add('desabilitado');btn.classList.remove('ativo');}
+}
+function tentarEnviar(){
+ if(enviado)return;
+ const faltando=[];respostas.forEach((r,i)=>{if(r<0)faltando.push(i+1);});
+ if(faltando.length>0){
+   const aviso=document.getElementById('avisoFaltam');
+   aviso.textContent=`Faltam responder: ${faltando.slice(0,12).join(', ')}${faltando.length>12?'...':''}`;aviso.style.display='block';
+   faltando.forEach(n=>{const card=document.getElementById(`qcard${n-1}`);card.classList.add('faltando');setTimeout(()=>card.classList.remove('faltando'),1200);});
+   document.getElementById(`qcard${faltando[0]-1}`).scrollIntoView({behavior:'smooth',block:'center'});return;
+ }
+ enviado=true;let acertos=0;respostas.forEach((r,i)=>{if(r===QUESTOES[i].correta)acertos++;});
+ const letras='ABCDEFGHJKLMNPQRSTUVWXYZ'; // sem I e O
+ const r1=letras[Math.floor(Math.random()*letras.length)];const r2=letras[Math.floor(Math.random()*letras.length)];
+ codigoGerado=`SIM-${String(acertos).padStart(2,'0')}-${r1}${r2}`;
+ const pct=Math.round(acertos/TOTAL*100);let emoji,titulo,msg;
+ if(pct>=80){emoji='🏆';titulo='Arquiteto mestre!';msg='Você mandou muito bem na Geometria!';}
+ else if(pct>=64){emoji='👏';titulo='Muito bom!';msg='Ótimo trabalho! Revise os poucos erros.';}
+ else if(pct>=40){emoji='📚';titulo='Quase lá!';msg='Volte à Leitura e ao Resumo e tente de novo.';}
+ else{emoji='💪';titulo='Não desista!';msg='Releia com calma e refaça. Você consegue!';}
+ document.getElementById('resEmoji').textContent=emoji;
+ document.getElementById('resTitulo').textContent=titulo;
+ document.getElementById('resNota').textContent=`${acertos}/${TOTAL}`;
+ document.getElementById('resMsg').textContent=msg;
+ document.getElementById('resCodigo').textContent=codigoGerado;
+ document.getElementById('resultadoOverlay').classList.add('visivel');
+ document.getElementById('rbNota').textContent=`📋 ${acertos}/${TOTAL}`;
+ document.getElementById('rbCodigo').textContent=codigoGerado;
+ document.getElementById('resultadoBarra').classList.add('visivel');
+ document.getElementById('bottomBar').style.display='none';
+ salvarProgresso();
+}
+function fecharResultado(){
+ document.getElementById('resultadoOverlay').classList.remove('visivel');
+ if(!codigoLiberado){
+   const area=document.getElementById('simArea');
+   if(!document.getElementById('travaMsg')){
+     area.insertAdjacentHTML('afterbegin',`<div class="trava-msg visivel" id="travaMsg">🔒 <strong>Gabarito bloqueado.</strong><br>Seu código: <strong style="font-family:monospace;font-size:18px;color:var(--amarelo);">${codigoGerado}</strong><br>Mostre para um adulto. Quando autorizar, digite-o abaixo:<br><br><input type="text" id="inputCodigo" placeholder="Digite o código" style="padding:10px 14px;border:1px solid var(--borda);border-radius:8px;font-size:16px;text-align:center;width:240px;font-family:monospace;text-transform:uppercase;background:#0a1e30;color:var(--tinta);"><br><br><button onclick="verificarCodigo()" style="padding:10px 24px;background:var(--verm);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Fredoka';">Liberar gabarito</button><div id="codigoErro" style="color:var(--amarelo);font-size:12px;margin-top:8px;display:none;">Código incorreto. Peça ao adulto o código certo.</div></div>`);
+   }
+   window.scrollTo({top:0,behavior:'smooth'});
+ }
+}
+function verificarCodigo(){
+ const input=document.getElementById('inputCodigo').value.trim().toUpperCase();
+ if(input===codigoGerado){codigoLiberado=true;document.getElementById('travaMsg').style.display='none';liberarGabarito();salvarProgresso();}
+ else{document.getElementById('codigoErro').style.display='block';}
+}
+function liberarGabarito(){
+ const rbStatus=document.getElementById('rbStatus');rbStatus.textContent='✅ Gabarito liberado';rbStatus.classList.remove('bloqueado');rbStatus.classList.add('liberado');
+ const letras=['A','B','C','D'];
+ QUESTOES.forEach((q,i)=>{
+   const card=document.getElementById(`qcard${i}`);card.classList.add('bloqueada');
+   const escolheu=respostas[i];const acertou=escolheu===q.correta;
+   q.opts.forEach((_,j)=>{const opt=document.getElementById(`opt${i}_${j}`);if(j===q.correta)opt.classList.add('resposta-certa');if(j===escolheu&&!acertou)opt.classList.add('errada');});
+   const fb=document.getElementById(`fb${i}`);fb.style.display='block';
+   if(acertou){fb.className='feedback acertou';fb.innerHTML=`<div class="feedback-titulo">✅ Você acertou!</div><div>${q.opts[q.correta].e}</div>`;}
+   else{let ex='';q.opts.forEach((o,j)=>{if(j!==q.correta&&j===escolheu)ex+=`<p><strong>${letras[j]})</strong> ${o.e}</p>`;});
+     fb.className='feedback errou';fb.innerHTML=`<div class="feedback-titulo">❌ Resposta incorreta</div><div><strong style="color:#7ce0a0">Correta: ${letras[q.correta]})</strong> ${q.opts[q.correta].e}</div><div class="feedback-erradas"><strong>Sobre a sua escolha:</strong>${ex}</div>`;}
+ });
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function salvarProgresso(){try{const estado={respostas,enviado,codigoLiberado,codigoGerado,data:new Date().toISOString()};localStorage.setItem(CHAVE,JSON.stringify(estado));rotulo(estado.data);}catch(e){}}
+function carregarProgresso(){try{const d=localStorage.getItem(CHAVE);if(!d)return;const e=JSON.parse(d);
+  if(e.respostas)respostas=e.respostas;enviado=!!e.enviado;codigoLiberado=!!e.codigoLiberado;codigoGerado=e.codigoGerado;rotulo(e.data);
+  respostas.forEach((r,i)=>{if(r>=0){const el=document.getElementById(`opt${i}_${r}`);if(el)el.classList.add('selecionada');}});
+  atualizarProgresso();
+  if(enviado){document.getElementById('bottomBar').style.display='none';document.getElementById('resultadoBarra').classList.add('visivel');
+    let ac=0;respostas.forEach((r,i)=>{if(r===QUESTOES[i].correta)ac++;});
+    document.getElementById('rbNota').textContent=`📋 ${ac}/${TOTAL}`;document.getElementById('rbCodigo').textContent=codigoGerado||'';
+    if(codigoLiberado){liberarGabarito();}else{fecharResultado();}
+  }
+}catch(e){}}
+function rotulo(iso){const el=document.getElementById('ultimo');if(!iso){el.textContent='—';return;}const d=new Date(iso);el.textContent=d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2000);}
+let _mcb=null;
+function modalConfirm(msg,cb){let ov=document.getElementById('mcOv');if(!ov){ov=document.createElement('div');ov.id='mcOv';ov.style.cssText='position:fixed;inset:0;background:rgba(6,20,32,.8);z-index:95;display:flex;align-items:center;justify-content:center;padding:20px;';ov.innerHTML='<div style="background:#12324f;border:2px solid #5ec8ff;border-radius:16px;padding:24px;max-width:340px;text-align:center;"><p id="mcMsg" style="font-size:15px;margin-bottom:16px;color:#eaf6ff;"></p><div style="display:flex;gap:10px;justify-content:center;"><button id="mcSim" style="font-family:Fredoka;border:none;border-radius:10px;padding:10px 20px;font-size:14px;cursor:pointer;font-weight:600;background:#ff6b81;color:#fff;">Sim</button><button id="mcNao" style="font-family:Fredoka;border:none;border-radius:10px;padding:10px 20px;font-size:14px;cursor:pointer;font-weight:600;background:#1d4b78;color:#eaf6ff;">Cancelar</button></div></div>';document.body.appendChild(ov);document.getElementById('mcSim').onclick=()=>{ov.style.display='none';if(_mcb)_mcb();_mcb=null;};document.getElementById('mcNao').onclick=()=>{ov.style.display='none';_mcb=null;};}
+ document.getElementById('mcMsg').innerHTML=msg;_mcb=cb;ov.style.display='flex';}
+function exportar(){const d=localStorage.getItem(CHAVE);if(!d){toast('Nada para exportar ainda.');return;}const b=new Blob([d],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='progresso_simulado_geo6.json';a.click();URL.revokeObjectURL(u);toast('📥 Exportado!');}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);modalConfirm('Substituir o progresso atual?',()=>{localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);});}catch(x){toast('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
+function zerar(){modalConfirm('Apagar todas as respostas?',()=>{localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);});}
+
+init();atualizarProgresso();
+</script>
+</body>
+</html>
