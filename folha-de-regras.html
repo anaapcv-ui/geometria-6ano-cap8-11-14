@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Folha de Regras — Geometria 6º ano (imprimir)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--az:#153a5e;--linha:#2a8fd0;--amar:#c98a00;--verd:#2f9c6a;--verm:#c23048;--txt:#12283d;--bd:#c9d8e6;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;color:var(--txt);background:#e9eef3;padding:16px;}
+  .barra{max-width:1000px;margin:0 auto 12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .barra a{color:var(--linha);font-weight:800;text-decoration:none;font-size:14px;}
+  .btn-print{background:var(--az);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:'Fredoka';font-size:15px;cursor:pointer;}
+  .folha{max-width:1000px;margin:0 auto;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);padding:14px 16px;}
+  .cab{background:var(--az);color:#fff;border-radius:8px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:3px solid var(--linha);}
+  .cab h1{font-family:'Fredoka';font-size:18px;}
+  .cab span{font-size:11px;color:#cfe4f4;}
+  .grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+  .cx{border:1px solid var(--bd);border-radius:8px;overflow:hidden;}
+  .cx h2{font-family:'Fredoka';font-size:13px;color:#fff;padding:6px 10px;}
+  .cx.linha h2{background:var(--linha);}.cx.amar h2{background:var(--amar);}.cx.verd h2{background:var(--verd);}.cx.verm h2{background:var(--verm);}
+  .cx ul{list-style:none;padding:8px 10px;background:#f4f8fb;}
+  .cx li{font-size:11px;line-height:1.4;margin-bottom:5px;padding-left:12px;position:relative;}
+  .cx li::before{content:"•";position:absolute;left:0;color:var(--linha);font-weight:800;}
+  .cx b{color:var(--az);}
+  .rod{text-align:center;font-size:10px;color:#7089a0;margin-top:10px;}
+  @media print{
+    body{background:#fff;padding:0;}
+    .barra{display:none;}
+    .folha{border:none;box-shadow:none;border-radius:0;max-width:100%;padding:6px;}
+    @page{size:A4 landscape;margin:8mm;}
+    .cx li{font-size:10px;}
+  }
+</style>
+</head>
+<body>
+<div class="barra">
+  <a href="index.html">← Voltar ao índice</a>
+  <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
+</div>
+<div class="folha">
+  <div class="cab">
+    <h1>📐 FOLHA DE REGRAS — GEOMETRIA · 6º ANO</h1>
+    <span>Ateliê Geométrico • Avaliação Mensal 1 (10/09) • Caps. 8, 11 e 14</span>
+  </div>
+  <div class="grade">
+    <div class="cx linha">
+      <h2>POLÍGONOS (Cap. 8)</h2>
+      <ul>
+        <li><b>Polígono</b>: figura plana, fechada, só de segmentos de reta.</li>
+        <li><b>Convexo</b>: segmento entre 2 pontos fica dentro. <b>Côncavo</b>: bico p/ dentro.</li>
+        <li><b>Lado</b>, <b>vértice</b>, <b>diagonal</b> (liga vértices não vizinhos).</li>
+        <li>Nº de lados = nº de vértices = nº de ângulos internos.</li>
+        <li>Ângulo interno + externo = <b>180°</b>.</li>
+        <li><b>Regular</b>: lados iguais E ângulos iguais (sempre convexo).</li>
+        <li>Nomes: 3 triângulo, 4 quadrilátero, 5 pentágono, 6 hexágono, 8 octógono, 10 decágono.</li>
+      </ul>
+    </div>
+    <div class="cx verd">
+      <h2>CIRCUNFERÊNCIA E CÍRCULO (Cap. 11)</h2>
+      <ul>
+        <li><b>Circunferência</b>: linha curva fechada; pontos equidistantes do centro.</li>
+        <li><b>Raio</b>: centro até a linha. <b>Diâmetro</b>: corda pelo centro = <b>2 × raio</b>.</li>
+        <li><b>Corda</b>: pontas na linha. <b>Comprimento</b>: uma volta.</li>
+        <li><b>Círculo</b>: a linha + o interior cheio (não é só a linha!).</li>
+        <li><b>Setor</b>: fatia (pizza). <b>Coroa</b>: entre 2 círculos de mesmo centro (CD).</li>
+        <li>Volta completa = <b>360°</b>; semicircunferência = <b>180°</b>.</li>
+        <li>Ângulo central: vértice no centro.</li>
+      </ul>
+    </div>
+    <div class="cx linha">
+      <h2>SÓLIDOS GEOMÉTRICOS (Cap. 14)</h2>
+      <ul>
+        <li><b>Poliedros</b> (faces planas) × <b>corpos redondos</b> (cilindro, cone, esfera).</li>
+        <li>Elementos: <b>face</b>, <b>aresta</b> (2 faces), <b>vértice</b>.</li>
+        <li><b>Euler</b> (poliedro convexo): <b>V − A + F = 2</b>. Cubo: 8−12+6=2.</li>
+        <li><b>5 Sólidos de Platão</b>: tetraedro, cubo, octaedro, dodecaedro, icosaedro.</li>
+        <li><b>Prisma</b>: 2 bases iguais paralelas. <b>Pirâmide</b>: 1 base + topo.</li>
+        <li><b>Cilindro</b>=gira retângulo; <b>cone</b>=gira triângulo; <b>esfera</b>=gira semicircunferência.</li>
+        <li>Planificar = abrir as faces no plano (cubo tem 11 planificações).</li>
+      </ul>
+    </div>
+    <div class="cx amar">
+      <h2>QUADRILÁTEROS E TRIÂNGULOS</h2>
+      <ul>
+        <li><b>Trapézio</b>: 1 par de lados paralelos.</li>
+        <li><b>Paralelogramo</b>: 2 pares paralelos; lados e ângulos opostos iguais.</li>
+        <li><b>Losango</b>: paralelogramo de 4 lados iguais.</li>
+        <li><b>Retângulo</b>: paralelogramo de 4 ângulos de 90°.</li>
+        <li><b>Quadrado</b>: retângulo de 4 lados iguais.</li>
+        <li>Triângulo por lados: <b>equilátero</b> (3=), <b>isósceles</b> (2=), <b>escaleno</b> (todos ≠).</li>
+        <li>Por ângulos: <b>acutângulo</b> (&lt;90°), <b>retângulo</b> (=90°), <b>obtusângulo</b> (&gt;90°).</li>
+      </ul>
+    </div>
+    <div class="cx verd">
+      <h2>NA PONTA DA LÍNGUA</h2>
+      <ul>
+        <li>Diâmetro = 2 × raio.</li>
+        <li>Interno + externo = 180°.</li>
+        <li>V − A + F = 2 (poliedro convexo).</li>
+        <li>Prisma pentagonal: 15 arestas (5+5+5).</li>
+        <li>Volta = 360° / meia volta = 180°.</li>
+        <li>Só 5 poliedros regulares (Platão).</li>
+      </ul>
+    </div>
+    <div class="cx verm">
+      <h2>⚠️ PEGADINHAS DA PROVA</h2>
+      <ul>
+        <li>Círculo ≠ circunferência (cheio × só a linha).</li>
+        <li>Losango NÃO é regular (lados iguais, ângulos diferentes).</li>
+        <li>Nem toda corda é diâmetro (só a que passa pelo centro).</li>
+        <li>Esfera vem de SEMIcircunferência; cilindro de retângulo; cone de triângulo.</li>
+        <li>Euler: V <b>MENOS</b> A + F = 2 (não some tudo!).</li>
+        <li>Prisma tem 2 bases; pirâmide só 1.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="rod">Ateliê Geométrico · Kit de Estudos · Matemática 6º ano — Geometria (Caps. 8, 11 e 14) 📐</div>
+</div>
+</body>
+</html>
