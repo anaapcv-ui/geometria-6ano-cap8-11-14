@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Resumo — Ateliê Geométrico (6º ano)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bp:#0e2841; --bp2:#153a5e; --bp3:#1d4b78;
+  --linha:#5ec8ff; --linha-esc:#2a8fd0;
+  --tinta:#eaf6ff; --tinta2:#a9c7e0;
+  --amarelo:#ffd23f; --amarelo-cl:#fff0b8;
+  --verde:#4bd08b; --verde-bg:#12433a;
+  --verm:#ff6b81; --verm-bg:#3d1f2b;
+  --papel:#12324f; --borda:#2a527d;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--tinta);
+  background:
+    linear-gradient(rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(90deg,rgba(94,200,255,.06) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(180deg,#0c2338,#0e2841);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;}
+.header{background:linear-gradient(135deg,var(--bp2),var(--bp3));text-align:center;padding:30px 18px 26px;border-bottom:4px solid var(--linha);color:#fff;}
+.header .selo{display:inline-block;background:var(--linha);border:2px solid #fff;color:#06263f;font-size:11px;font-weight:800;letter-spacing:2px;padding:5px 14px;border-radius:20px;margin-bottom:12px;font-family:'Fredoka';}
+.header h1{font-family:'Fredoka';font-weight:700;font-size:clamp(23px,5.5vw,38px);text-shadow:0 2px 0 #06263f;}
+.header p{color:var(--amarelo-cl);font-size:14.5px;margin-top:8px;}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 90px;}
+.painel{background:var(--papel);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:12px;}
+.painel .info{color:var(--tinta2);flex:1;min-width:190px;}.painel .info b{color:var(--tinta);}
+.painel .btns{display:flex;gap:6px;flex-wrap:wrap;}
+.mini{background:transparent;border:1px solid var(--borda);color:var(--tinta2);padding:5px 11px;border-radius:16px;cursor:pointer;font-size:11px;font-weight:800;font-family:'Nunito';transition:.2s;}
+.mini:hover{border-color:var(--linha);color:var(--linha);}
+.sec-titulo{font-family:'Fredoka';color:var(--amarelo);font-size:20px;margin:26px 0 12px;display:flex;align-items:center;gap:10px;border-bottom:2px dashed var(--borda);padding-bottom:8px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+.card{background:var(--papel);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;box-shadow:0 5px 16px rgba(0,0,0,.25);}
+.card h3{font-family:'Fredoka';color:var(--linha);font-size:16px;margin-bottom:8px;}
+.card p{font-size:14.5px;margin-bottom:6px;}
+.card .ex{background:#0d283f;border:1px dashed var(--linha-esc);border-radius:8px;padding:8px 10px;font-size:14px;margin-top:6px;}
+.card b{color:var(--amarelo);}
+.flipgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;}
+.flip{background:transparent;height:180px;perspective:1000px;cursor:pointer;}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d;}
+.flip.virado .flip-in{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 5px 16px rgba(0,0,0,.3);}
+.flip-frente{background:linear-gradient(135deg,var(--bp3),var(--linha-esc));border:2px solid var(--linha);}
+.flip-frente .t{font-family:'Fredoka';font-size:18px;color:#fff;}
+.flip-frente .h{font-size:12px;color:var(--amarelo-cl);margin-top:8px;font-weight:800;opacity:.9;}
+.flip-verso{background:var(--papel);border:2px solid var(--amarelo);transform:rotateY(180deg);font-size:14px;color:var(--tinta);}
+.flip-verso b{color:var(--amarelo);}
+.flip-emoji{font-size:30px;margin-bottom:6px;}
+.postit{background:linear-gradient(135deg,#fff4c2,#ffe89a);color:#5a4a12;border-radius:6px;padding:14px 16px;margin:10px 0;font-size:14.5px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);transform:rotate(-.4deg);}
+.postit::before{content:"📌 ";}
+.peg{background:var(--verm-bg);border:2px solid var(--verm);border-radius:10px;padding:13px 16px;margin:10px 0;font-size:14.5px;}
+.peg b{color:var(--verm);}
+.peg::before{content:"⚠️ ";}
+.gloss{background:var(--papel);border:1px solid var(--borda);border-radius:14px;padding:8px 18px;}
+.gloss .item{padding:11px 0;border-bottom:1px solid var(--borda);font-size:14.5px;}
+.gloss .item:last-child{border-bottom:none;}
+.gloss .item b{color:var(--linha);font-family:'Fredoka';}
+.check{background:var(--papel);border:2px solid var(--verde);border-radius:14px;padding:16px 20px;}
+.check h3{font-family:'Fredoka';color:var(--verde);font-size:17px;margin-bottom:6px;}
+.check .barrinha{height:12px;background:#0a1e30;border-radius:8px;overflow:hidden;margin:10px 0 14px;border:1px solid var(--verde);}
+.check .barrinha i{display:block;height:100%;width:0;background:var(--verde);transition:width .4s;}
+.check label{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14.5px;cursor:pointer;}
+.check input{width:20px;height:20px;accent-color:var(--verde);cursor:pointer;}
+.modal{display:none;position:fixed;inset:0;background:rgba(6,20,32,.8);z-index:90;align-items:center;justify-content:center;padding:20px;}
+.modal.on{display:flex;}
+.modal-card{background:var(--papel);border:2px solid var(--linha);border-radius:16px;padding:24px;max-width:340px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.modal-card p{font-size:15px;margin-bottom:16px;color:var(--tinta);}
+.modal-card .mbtns{display:flex;gap:10px;justify-content:center;}
+.modal-card button{font-family:'Fredoka';border:none;border-radius:10px;padding:10px 20px;font-size:14px;cursor:pointer;font-weight:600;}
+.mbtn-sim{background:var(--verm);color:#fff;}.mbtn-nao{background:var(--bp3);color:var(--tinta);}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(60px);background:var(--linha);color:#06263f;padding:12px 20px;border-radius:30px;font-weight:800;font-size:14px;z-index:80;opacity:0;transition:.35s;}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="selo">📐 MATEMÁTICA · 6º ANO · GEOMETRIA</div>
+  <h1>Resumo — Ateliê Geométrico</h1>
+  <p>Tudo que cai na prova, em cartões rápidos (Caps. 8, 11 e 14) 📏</p>
+</div>
+
+<div class="wrap">
+  <div class="painel">
+    <div class="info">💾 Seu checklist fica salvo neste navegador. Último salvamento: <b id="ultimo">—</b></div>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <label class="mini" style="display:inline-block">📤 Importar<input type="file" accept="application/json" onchange="importar(event)" style="display:none"></label>
+      <button class="mini" onclick="zerar()">🗑️ Zerar</button>
+    </div>
+  </div>
+
+  <div class="sec-titulo">🔺 Polígonos (Cap. 8)</div>
+  <div class="grid">
+    <div class="card"><h3>O que é polígono</h3><p>Figura <b>plana</b>, <b>fechada</b>, feita só de <b>segmentos de reta</b> que se tocam nas pontas.</p><div class="ex">Triângulo, quadrado, pentágono ✓ · circunferência ✗ (é curva)</div></div>
+    <div class="card"><h3>Convexo x côncavo</h3><p><b>Convexo</b>: todo segmento entre 2 pontos fica dentro.</p><p><b>Côncavo</b>: tem "bico" para dentro (ex.: estrela).</p></div>
+    <div class="card"><h3>Elementos</h3><p><b>Lado</b>, <b>vértice</b> (encontro de 2 lados), <b>diagonal</b> (liga vértices não vizinhos).</p><div class="ex">nº de lados = nº de vértices = nº de ângulos internos</div></div>
+    <div class="card"><h3>Ângulos</h3><p>Em cada vértice: <b>interno + externo = 180°</b>.</p><div class="ex">Interno 110° → externo 70°</div></div>
+    <div class="card"><h3>Polígono regular</h3><p>Todos os <b>lados iguais</b> E todos os <b>ângulos iguais</b>. É sempre <b>convexo</b>.</p><div class="ex">Favo de mel = hexágono regular 🐝</div></div>
+    <div class="card"><h3>Nomes (pelos lados)</h3><p>3 triângulo · 4 quadrilátero · 5 pentágono · 6 hexágono · 7 heptágono · 8 octógono · 10 decágono · 12 dodecágono.</p></div>
+  </div>
+
+  <div class="sec-titulo">▱ Quadriláteros e triângulos <span style="font-size:13px;color:var(--tinta2);font-weight:700">(toque para virar o cartão)</span></div>
+  <div class="flipgrid" id="flips"></div>
+
+  <div class="sec-titulo">⭕ Circunferência e círculo (Cap. 11)</div>
+  <div class="grid">
+    <div class="card"><h3>Circunferência</h3><p>Linha curva fechada; todos os pontos à <b>mesma distância</b> do centro. Essa distância é o <b>raio</b>.</p></div>
+    <div class="card"><h3>Partes</h3><p><b>Corda</b>: pontas na linha. <b>Diâmetro</b>: corda que passa pelo centro = <b>2 × raio</b>. <b>Comprimento</b>: uma volta.</p><div class="ex">Raio 7 cm → diâmetro 14 cm</div></div>
+    <div class="card"><h3>Círculo ≠ circunferência</h3><p><b>Circunferência</b> = só a linha. <b>Círculo</b> = a linha + o miolo cheio (moeda).</p></div>
+    <div class="card"><h3>Setor e coroa</h3><p><b>Setor</b>: fatia (pizza 🍕). <b>Coroa</b>: entre dois círculos de mesmo centro (CD 💿).</p></div>
+    <div class="card"><h3>Voltas e ângulo central</h3><p>Volta completa = <b>360°</b>; meia volta (semicircunferência) = <b>180°</b>. Ângulo central tem vértice no <b>centro</b>.</p></div>
+  </div>
+
+  <div class="sec-titulo">🧊 Sólidos geométricos (Cap. 14)</div>
+  <div class="grid">
+    <div class="card"><h3>Dois grupos</h3><p><b>Poliedros</b> (faces planas: cubo, prisma, pirâmide) e <b>corpos redondos</b> (cilindro, cone, esfera).</p></div>
+    <div class="card"><h3>Elementos do poliedro</h3><p><b>Face</b> (polígono), <b>aresta</b> (encontro de 2 faces), <b>vértice</b> (encontro de arestas).</p></div>
+    <div class="card"><h3>Relação de Euler</h3><p>Poliedro convexo: <b>V − A + F = 2</b>.</p><div class="ex">Cubo: 8 − 12 + 6 = 2 ✔</div></div>
+    <div class="card"><h3>Sólidos de Platão</h3><p>Só <b>5</b> regulares: tetraedro, cubo, octaedro, dodecaedro, icosaedro.</p></div>
+    <div class="card"><h3>Prisma x pirâmide</h3><p><b>Prisma</b>: 2 bases iguais paralelas. <b>Pirâmide</b>: 1 base + faces triangulares num topo.</p></div>
+    <div class="card"><h3>Corpos redondos (giros)</h3><p><b>Cilindro</b> = gira retângulo. <b>Cone</b> = gira triângulo. <b>Esfera</b> = gira semicircunferência.</p></div>
+  </div>
+
+  <div class="sec-titulo">📌 Dicas de ouro</div>
+  <div class="postit">Diagonal liga vértices que NÃO são vizinhos. Vizinhos já estão ligados por um lado.</div>
+  <div class="postit">Regular = lados iguais E ângulos iguais (as duas coisas juntas).</div>
+  <div class="postit">Diâmetro é sempre o dobro do raio. E ele é a maior corda de todas.</div>
+  <div class="postit">Euler: "Vai Até Fechar 2" → V − A + F = 2 (cuidado com o menos nas arestas).</div>
+
+  <div class="sec-titulo">⚠️ Pegadinhas que a prova adora</div>
+  <div class="peg"><b>Círculo x circunferência:</b> circunferência é só a linha; círculo é a figura cheia. Não troque!</div>
+  <div class="peg"><b>Losango não é regular:</b> tem os 4 lados iguais, mas os ângulos são diferentes.</div>
+  <div class="peg"><b>Corda x diâmetro:</b> toda corda que passa pelo centro é diâmetro, mas nem toda corda passa pelo centro.</div>
+  <div class="peg"><b>Esfera vem de semicircunferência</b> (não de um círculo inteiro). Cilindro vem de retângulo; cone, de triângulo.</div>
+  <div class="peg"><b>Prisma tem 2 bases</b> iguais; a pirâmide tem só 1 base e uma ponta no topo.</div>
+
+  <div class="sec-titulo">📖 Glossário</div>
+  <div class="gloss">
+    <div class="item"><b>Polígono</b> — figura plana e fechada feita de segmentos de reta.</div>
+    <div class="item"><b>Vértice</b> — ponto onde dois lados (ou arestas) se encontram.</div>
+    <div class="item"><b>Diagonal</b> — segmento que liga dois vértices não consecutivos.</div>
+    <div class="item"><b>Polígono regular</b> — todos os lados e todos os ângulos iguais.</div>
+    <div class="item"><b>Circunferência</b> — linha curva fechada com pontos equidistantes do centro.</div>
+    <div class="item"><b>Raio</b> — distância do centro a um ponto da circunferência.</div>
+    <div class="item"><b>Diâmetro</b> — corda que passa pelo centro; vale o dobro do raio.</div>
+    <div class="item"><b>Círculo</b> — a circunferência mais toda a região interna.</div>
+    <div class="item"><b>Setor circular</b> — "fatia" do círculo, entre dois raios e um arco.</div>
+    <div class="item"><b>Coroa circular</b> — região entre dois círculos concêntricos.</div>
+    <div class="item"><b>Poliedro</b> — sólido de faces planas poligonais.</div>
+    <div class="item"><b>Face, aresta, vértice</b> — as partes de um poliedro.</div>
+    <div class="item"><b>Prisma</b> — poliedro com duas bases poligonais iguais e paralelas.</div>
+    <div class="item"><b>Pirâmide</b> — poliedro com uma base e faces triangulares num ápice.</div>
+    <div class="item"><b>Planificação</b> — as faces do sólido abertas no plano.</div>
+  </div>
+
+  <div class="sec-titulo">✅ Checklist de revisão</div>
+  <div class="check">
+    <h3>Já domino...</h3>
+    <div class="barrinha"><i id="chkFill"></i></div>
+    <div id="checklist"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal"><div class="modal-card"><p id="modalMsg"></p><div class="mbtns"><button class="mbtn-sim" id="modalSim">Sim</button><button class="mbtn-nao" id="modalNao">Cancelar</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const FLIPS=[
+ {emoji:"🔻",t:"Triângulo",h:"por lados?",v:"<b>Equilátero</b> (3 iguais), <b>isósceles</b> (2 iguais), <b>escaleno</b> (todos diferentes). Por ângulos: acutângulo, retângulo, obtusângulo."},
+ {emoji:"▭",t:"Trapézio",h:"o que é?",v:"Quadrilátero com <b>1 par</b> de lados paralelos (base maior e base menor)."},
+ {emoji:"▱",t:"Paralelogramo",h:"o que é?",v:"Quadrilátero com <b>2 pares</b> de lados paralelos; lados e ângulos opostos <b>iguais</b>."},
+ {emoji:"◆",t:"Losango",h:"o que é?",v:"Paralelogramo com <b>os 4 lados iguais</b> (mas ângulos diferentes)."},
+ {emoji:"▬",t:"Retângulo",h:"o que é?",v:"Paralelogramo com <b>os 4 ângulos de 90°</b>."},
+ {emoji:"◻",t:"Quadrado",h:"o que é?",v:"Retângulo com <b>os 4 lados iguais</b> — o mais completo (lados iguais E ângulos de 90°)."}
+];
+const ITENS_CHECK=[
+ "Sei reconhecer um polígono (plano, fechado, só segmentos de reta)",
+ "Diferencio polígono convexo de côncavo",
+ "Sei o que são lado, vértice e diagonal",
+ "Uso a regra ângulo interno + externo = 180°",
+ "Sei os nomes dos polígonos e o que é polígono regular",
+ "Classifico triângulos (por lados e por ângulos) e quadriláteros",
+ "Diferencio circunferência de círculo",
+ "Sei raio, corda, diâmetro (2×raio), setor e coroa",
+ "Conheço poliedros, corpos redondos e os elementos (face, aresta, vértice)",
+ "Uso a relação de Euler (V − A + F = 2)",
+ "Sei prismas, pirâmides e os 5 Sólidos de Platão",
+ "Sei como nascem cilindro, cone e esfera (giros) e o que é planificação"
+];
+const CHAVE='kit_mat6_geo_cap8_11_14_resumo_v1';
+let marcados=ITENS_CHECK.map(()=>false);
+
+const fc=document.getElementById('flips');
+FLIPS.forEach((f)=>{
+ const d=document.createElement('div');d.className='flip';d.onclick=()=>d.classList.toggle('virado');
+ d.innerHTML=`<div class="flip-in"><div class="flip-face flip-frente"><div class="flip-emoji">${f.emoji}</div><div class="t">${f.t}</div><div class="h">👆 ${f.h}</div></div><div class="flip-face flip-verso">${f.v}</div></div>`;
+ fc.appendChild(d);
+});
+const cl=document.getElementById('checklist');
+ITENS_CHECK.forEach((t,i)=>{
+ const lab=document.createElement('label');
+ lab.innerHTML=`<input type="checkbox" data-i="${i}"><span>${t}</span>`;
+ lab.querySelector('input').addEventListener('change',e=>{marcados[i]=e.target.checked;atualizarChk();salvar();});
+ cl.appendChild(lab);
+});
+function atualizarChk(){const n=marcados.filter(Boolean).length;document.getElementById('chkFill').style.width=Math.round(n/ITENS_CHECK.length*100)+'%';}
+function salvar(){try{localStorage.setItem(CHAVE,JSON.stringify({marcados,data:new Date().toISOString()}));rotulo(new Date().toISOString());}catch(e){}}
+function carregar(){try{const d=localStorage.getItem(CHAVE);if(!d)return;const e=JSON.parse(d);if(e.marcados){marcados=e.marcados;document.querySelectorAll('#checklist input').forEach((c,i)=>c.checked=!!marcados[i]);}rotulo(e.data);}catch(e){}}
+function rotulo(iso){const el=document.getElementById('ultimo');if(!iso){el.textContent='—';return;}const d=new Date(iso);el.textContent=d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2000);}
+let _mcb=null;
+function modalConfirm(msg,cb){document.getElementById('modalMsg').innerHTML=msg;_mcb=cb;document.getElementById('modal').classList.add('on');}
+document.getElementById('modalSim').onclick=()=>{document.getElementById('modal').classList.remove('on');if(_mcb)_mcb();_mcb=null;};
+document.getElementById('modalNao').onclick=()=>{document.getElementById('modal').classList.remove('on');_mcb=null;};
+function exportar(){const d=localStorage.getItem(CHAVE);if(!d){toast('Nada para exportar ainda.');return;}const b=new Blob([d],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='progresso_resumo_geo6.json';a.click();URL.revokeObjectURL(u);toast('📥 Exportado!');}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);modalConfirm('Substituir o progresso atual?',()=>{localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);});}catch(x){toast('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
+function zerar(){modalConfirm('Apagar o checklist?',()=>{localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);});}
+carregar();atualizarChk();
+</script>
+</body>
+</html>
